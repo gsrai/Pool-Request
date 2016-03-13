@@ -37,32 +37,40 @@ export default function() {
             id: 1,
             attributes: {
               name: 'Luke',
-              challenging: null
+              challenging: null,
+              wins: 3,
+              losses: 0
             }
           }, {
             type: 'person',
             id: 2,
             attributes: {
               name: 'Sorin',
-              challenging: 3
+              challenging: 3,
+              wins :2,
+              losses: 1
             }
           }, {
             type: 'person',
             id: 3,
             attributes: {
               name: 'Gagondeep',
-              challenging: 2
+              challenging: 2,
+              wins: 1,
+              losses: 5
             }
           }, {
             type: 'person',
             id: 4,
             attributes: {
               name: 'Bradley',
-              challenging: null
+              challenging: null,
+              wins: 0,
+              losses: 6
             }
           }
         ]
-      }
+      };
     }
   );
 

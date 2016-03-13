@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('rules');
   this.route('ladder');
+  this.route('person');
 });
 
 export default Router;
