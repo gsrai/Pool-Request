@@ -36,7 +36,6 @@ export default function() {
             type: 'person',
             id: 1,
             attributes: {
-              position: 1,
               name: 'Luke',
               challenging: null
             }
@@ -44,7 +43,6 @@ export default function() {
             type: 'person',
             id: 2,
             attributes: {
-              position: 2,
               name: 'Sorin',
               challenging: 3
             }
@@ -52,9 +50,15 @@ export default function() {
             type: 'person',
             id: 3,
             attributes: {
-              position: 3,
               name: 'Gagondeep',
               challenging: 2
+            }
+          }, {
+            type: 'person',
+            id: 4,
+            attributes: {
+              name: 'Bradley',
+              challenging: null
             }
           }
         ]
