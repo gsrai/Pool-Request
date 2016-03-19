@@ -74,12 +74,21 @@ export default function() {
     }
   );
 
+  this.get('/games', function(db, request) {
+    return {
+      data: db.games.map(function(attributes) {
+        return { type: 'game', id: attributes.id, attributes };
+      })
+    };
+  });
+
   /*
     POST shorthands
 
     this.post('/contacts');
     this.post('/contacts', 'user'); // specify the type of resource to be created
   */
+  //this.post('/game', 'game');
 
   /*
     PUT shorthands

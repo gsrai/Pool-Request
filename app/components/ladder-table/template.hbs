@@ -10,7 +10,7 @@
     <tr class={{person.classNames}}>
         <td class="position">{{person.position}}</td>
         <td class="name">
-            {{#link-to 'person' (query-params name=person.name)}}{{person.name}}{{/link-to}}
+            {{#link-to 'history' (query-params name=person.name)}}{{person.name}}{{/link-to}}
         </td>
         <td class="wins">{{person.wins}}</td>
         <td class="losses">{{person.losses}}</td>
