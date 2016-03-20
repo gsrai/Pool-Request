@@ -1,3 +1,5 @@
+import Mirage from 'ember-cli-mirage';
+
 export default function() {
 
   // These comments are here to help you get started. Feel free to delete them.
@@ -76,8 +78,8 @@ export default function() {
 
   this.get('/games', function(db, request) {
     return {
-      data: db.games.map(function(attributes) {
-        return { type: 'game', id: attributes.id, attributes };
+      data: db.games.map(function(attributes, i) {
+        return { type: 'game', id: (i + 1), attributes };
       })
     };
   });
@@ -88,7 +90,17 @@ export default function() {
     this.post('/contacts');
     this.post('/contacts', 'user'); // specify the type of resource to be created
   */
-  //this.post('/game', 'game');
+
+  this.post('/games', function(db, request) {
+    var params = JSON.parse(request.requestBody).data.attributes;
+    params.type = 'game';
+
+    if (!params['name-one'] || !params['name-one']) {
+      return new Mirage.Response(400, { a: 'header' }, { message: 'name cannot be blank' });
+    } else {
+      return {data: db.games.insert(params) };
+    }
+  });
 
   /*
     PUT shorthands

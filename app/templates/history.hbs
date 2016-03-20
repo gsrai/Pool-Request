@@ -1,6 +1,9 @@
-<h1>Info about {{name}}</h1>
-
-<h2>History</h2>
-<p>A summary of all the games {{name}} has played</p>
+{{#if name}}
+    <h2>History of {{name}}</h2>
+    <p>A summary of all the games {{name}} has played</p>
+{{else}}
+    <h2>Complete History</h2>
+    <p>A summery of all the games played</p>
+{{/if}}
 
 {{history-table games=filteredGames}}
