@@ -30,53 +30,60 @@ export default function() {
     this.get('/contacts/:id', ['contact', 'addresses']);
   */
 
-  this.get('/people', function() {
+  // TODO copy logic into backend? Probably not the most performant solution
+  // Doesn't know the swapping logic
+  // Add a new user to the bottom
+  // Updates their wins / losses
+  this.get('/people', function(db) {
+    let games = db.games;
+    let people = [];
+
+    games.forEach(function(game) {
+      let isOneWinner = game['score-one'] > game['score-two'];
+      let isOneAdded = false;
+      let isTwoAdded = false;
+      people.forEach(function(person) {
+        if (person.name === game['name-one']) {
+          isOneWinner ? person.wins++ : person.losses++;
+          isOneAdded = true;
+        } else if (person.name === game['name-two']) {
+          isOneWinner ? person.losses++ : person.wins++;
+          isTwoAdded = true;
+        }
+      });
+
+      if (!isOneAdded) {
+        let wins = 0;
+        let losses = 0;
+
+        isOneWinner ? wins++ : losses++;
+
+        people.push({ name: game['name-one'], wins: wins, losses: losses, challenging: null });
+      }
+      if (!isTwoAdded) {
+        let wins = 0;
+        let losses = 0;
+
+        isOneWinner ? losses++ : wins++;
+
+        people.push({ name: game['name-two'], wins: wins, losses: losses, challenging: null });
+      }
+    });
+
+    //Add fake challenging
+    people[0].challenging = 2;
+    people[2].challenging = 0;
+
+
     return {
-      data:
-        [
-          {
-            type: 'person',
-            id: 1,
-            attributes: {
-              name: 'Luke',
-              challenging: null,
-              wins: 3,
-              losses: 0
-            }
-          }, {
-            type: 'person',
-            id: 2,
-            attributes: {
-              name: 'Sorin',
-              challenging: 3,
-              wins :2,
-              losses: 1
-            }
-          }, {
-            type: 'person',
-            id: 3,
-            attributes: {
-              name: 'Gagondeep',
-              challenging: 2,
-              wins: 1,
-              losses: 5
-            }
-          }, {
-            type: 'person',
-            id: 4,
-            attributes: {
-              name: 'Bradley',
-              challenging: null,
-              wins: 0,
-              losses: 6
-            }
-          }
-        ]
+      data: people.map(function(attributes, i) {
+        return { type: 'person', id: (i + 1), attributes };
+      })
       };
     }
   );
 
-  this.get('/games', function(db, request) {
+  this.get('/games', function(db) {
     return {
       data: db.games.map(function(attributes, i) {
         return { type: 'game', id: (i + 1), attributes };
