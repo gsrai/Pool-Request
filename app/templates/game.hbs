@@ -1,15 +1,15 @@
 <h1>Enter your results here</h1>
 
-<form {{action "submit" on="submit"}}>
+<form class="game" {{action "submit" on="submit"}}>
     <fieldset>
         <h2>Player one</h2>
         <label>
             Name
-            {{input type="text" value=nameOne placeholder="The Winner"}}
+            {{input class="nameOne" type="text" value=nameOne placeholder="The Winner"}}
         </label>
         <label>
             Score
-            {{input type="number" value=scoreOne}}
+            {{input class="scoreOne" type="number" value=scoreOne}}
         </label>
     </fieldset>
     <fieldset>
@@ -17,11 +17,11 @@
     <h2>Player two</h2>
         <label>
             Name
-            {{input type="text" value=nameTwo placeholder="The Looser"}}
+            {{input class="nameTwo" type="text" value=nameTwo placeholder="The Looser"}}
         </label>
         <label>
             Score
-            {{input type="number" value=scoreTwo}}
+            {{input class="scoreTwo" type="number" value=scoreTwo}}
         </label>
     </fieldset>
 
