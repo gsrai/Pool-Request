@@ -1,0 +1,57 @@
+@footerHeight: 40px;
+@bodyMargin: 10px;
+
+h2 {
+  background-color: @dark;
+  color: @light;
+  padding: 15px ;
+  margin: 0 -@bodyMargin 30px -@bodyMargin;
+}
+
+.header, .footer {
+  background-color: @darker;
+  color: @dark;
+
+  & h1 {
+    display: inline-block;
+  }
+
+  & nav {
+    float: right;
+    margin: 20px 10px;
+  }
+
+  & a {
+    padding: 5px;
+
+    color: @dark;
+
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.header {
+  height: @footerHeight * 2;
+  line-height: @footerHeight;
+}
+
+.footer {
+  height: @footerHeight;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  & > * {
+    line-height: @footerHeight / 2;
+    margin: @footerHeight / 4;
+
+  }
+}
+
+.body {
+  margin: 0 @bodyMargin;
+  height: 100%;
+  padding-bottom: @footerHeight;
+}

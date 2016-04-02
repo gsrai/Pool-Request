@@ -1,9 +1,25 @@
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: calc(~"100% - 20px");
+  margin: 10px;
 
   &, th, td {
-    border: 1px solid black;
     padding: 10px 5px;
+  }
+
+  td {
+    border: solid @light 5px;
+    text-align: center;
+  }
+
+  tr:nth-of-type(even) {
+    background-color: @lightest;
+  }
+  tr:nth-of-type(odd) {
+    background-color: @lighter;
+  }
+
+  a {
+    text-decoration: none;
   }
 }

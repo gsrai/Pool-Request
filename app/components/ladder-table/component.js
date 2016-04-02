@@ -13,8 +13,8 @@ export default Ember.Component.extend({
 
       tmp.ratio = tmp.get('losses') === 0 ? tmp.get('wins') : (tmp.get('wins') / tmp.get('losses'));
 
-      let classNames = tmp.get('challenging') === null ? '' : 'unchallengeable ';
-      classNames += "person" + tmp.get('position');
+      let classNames = tmp.get('challenging') === null ? 'challengeable' : 'unchallengeable';
+      classNames += ' person' + tmp.get('position');
       tmp.classNames = classNames;
       return tmp;
     });
