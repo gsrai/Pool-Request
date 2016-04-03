@@ -42,38 +42,57 @@ export default function() {
       let isOneWinner = game['score-one'] > game['score-two'];
       let isOneAdded = false;
       let isTwoAdded = false;
+
+      let update = function(person, isWinner, score) {
+        if (isWinner) {
+          person.games.wins++;
+          person.frames.wins += score;
+        } else {
+          person.games.losses++;
+          person.frames.losses += score;
+        }
+      };
+
       people.forEach(function(person) {
+        if (!person.games) {
+          person.games = {};
+        }
+        if (!person.frames) {
+          person.frames = {};
+        }
         if (person.name === game['name-one']) {
-          isOneWinner ? person.wins++ : person.losses++;
+          update(person, isOneWinner, game['score-one']);
           isOneAdded = true;
         } else if (person.name === game['name-two']) {
-          isOneWinner ? person.losses++ : person.wins++;
+          update(person, !isOneWinner, game['score-two']);
           isTwoAdded = true;
         }
       });
 
+      let createPerson = function(name, score, opponentScore) {
+        let games = {};
+        let frames = {};
+
+        frames.wins = score;
+        frames.losses = opponentScore;
+        games.wins = +(score > opponentScore);
+        games.losses = +(score < opponentScore);
+
+        return { name, games, frames, challenging: null };
+      };
+
       if (!isOneAdded) {
-        let wins = 0;
-        let losses = 0;
-
-        isOneWinner ? wins++ : losses++;
-
-        people.push({ name: game['name-one'], wins: wins, losses: losses, challenging: null });
+        people.push(createPerson(game['name-one'], game['score-one'], game['score-two']));
       }
+
       if (!isTwoAdded) {
-        let wins = 0;
-        let losses = 0;
-
-        isOneWinner ? losses++ : wins++;
-
-        people.push({ name: game['name-two'], wins: wins, losses: losses, challenging: null });
+        people.push(createPerson(game['name-two'], game['score-two'], game['score-one']));
       }
     });
 
     //Add fake challenging
     people[0].challenging = 2;
     people[2].challenging = 0;
-
 
     return {
       data: people.map(function(attributes, i) {

@@ -1,8 +1,8 @@
-<h1>Enter your results here</h1>
+<h2>Add Game</h2>
 
 <form class="game" {{action "submit" on="submit"}}>
     <fieldset>
-        <h2>Player one</h2>
+        <h3>Player one</h3>
         <label>
             Name
             {{input class="nameOne" type="text" value=nameOne placeholder="The Winner"}}
@@ -14,7 +14,7 @@
     </fieldset>
     <fieldset>
 
-    <h2>Player two</h2>
+        <h3>Player two</h3>
         <label>
             Name
             {{input class="nameTwo" type="text" value=nameTwo placeholder="The Looser"}}
@@ -24,7 +24,13 @@
             {{input class="scoreTwo" type="number" value=scoreTwo}}
         </label>
     </fieldset>
+    <fieldset>
+        <label class="dateLabel">
+            Date finished
+            {{input class="date" type="date" value=date}}
+        </label>
 
-    <input type="submit" value="submit" class="submitButton">
+        {{input class="submitButton" type="submit" value="submit" }}
+    </fieldset>
 
 </form>
