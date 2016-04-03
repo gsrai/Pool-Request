@@ -1,0 +1,22 @@
+<h1>Add Players</h1>
+
+<form class="admin" {{action "submit" on="submit"}}>
+    <fieldset>
+        <h2>Add Player</h2>
+        <label>
+            Name
+            {{input class="playerName" type="text" value=playerName}}
+        </label>
+        <label>
+            Wins
+            {{input class="playerWins" type="number" value=playerWins}}
+        </label>
+        <label>
+            Losses
+            {{input class="playerLosses" type="number" value=playerLosses}}
+        </label>
+    </fieldset>
+
+    <input type="submit" value="submit" class="submitButton">
+
+</form>
