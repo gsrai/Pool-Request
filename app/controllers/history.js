@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
   queryParams: ['name'],
   name: null,
 
-  filteredGames: Ember.computed('model', 'name', function() {
+  filteredGames: Ember.computed('model.[]', 'name', function() {
     const name = this.get('name');
     let games = this.get('model');
 

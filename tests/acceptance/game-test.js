@@ -13,10 +13,10 @@ test('should add new game', function(assert) {
   click('input[type=submit]');
   andThen(() => {
     assert.equal(currentURL(), '/history');
-    assert.equal(find('.playerOne:first').text(), 'foo');
-    assert.equal(find('.score:first').text(), '3 - 0');
-    assert.equal(find('.playerTwo:first').text(), 'bar');
-    assert.equal(find('.date:first').text(), '08/05/93');
+    assert.equal(find('.playerOne:last').text(), 'foo');
+    assert.equal(find('.score:last').text(), '3 - 0');
+    assert.equal(find('.playerTwo:last').text(), 'bar');
+    assert.equal(find('.date:last').text(), '08/05/93');
   });
 });
 

@@ -1,8 +1,8 @@
 <tr>
     <th rowspan="3">Position</th>
     <th rowspan="3">Name</th>
-    <th rowspan="2" colspan="3">Games</th>
-    <th rowspan="2" colspan="3">Frames</th>
+    <th rowspan="2" colspan="4">Games</th>
+    <th rowspan="2" colspan="4">Frames</th>
     <th rowspan="3">Challenging</th>
 </tr>
 <tr></tr>
@@ -10,9 +10,11 @@
     <th>Wins</th>
     <th>Losses</th>
     <th>W/L</th>
+    <th>Win %</th>
     <th>Wins</th>
     <th>Losses</th>
     <th>W/L</th>
+    <th>Win %</th>
 </tr>
 {{#each displayedPeople as |person|}}
     <tr class={{person.classNames}}>
@@ -22,10 +24,12 @@
         </td>
         <td class="games wins">{{person.games.wins}}</td>
         <td class="games losses">{{person.games.losses}}</td>
-        <td class="games ratio">{{person.games.ratio}}</td>
+        <td class="games ratio winLoss">{{person.games.ratio.winLoss}}</td>
+        <td class="games ratio winPercent">{{person.games.ratio.winPercent}}</td>
         <td class="frames wins">{{person.frames.wins}}</td>
         <td class="frames losses">{{person.frames.losses}}</td>
-        <td class="frames ratio">{{person.frames.ratio}}</td>
+        <td class="frames ratio winLoss">{{person.frames.ratio.winLoss}}</td>
+        <td class="frames ratio winPercent">{{person.frames.ratio.winPercent}}</td>
         <td class="challenging">{{person.challenging}}</td>
     </tr>
 {{/each}}

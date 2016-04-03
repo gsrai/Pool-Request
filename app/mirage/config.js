@@ -42,6 +42,17 @@ export default function() {
       let isOneWinner = game['score-one'] > game['score-two'];
       let isOneAdded = false;
       let isTwoAdded = false;
+
+      let update = function(person, isWinner, score) {
+        if (isWinner) {
+          person.games.wins++;
+          person.frames.wins += score;
+        } else {
+          person.games.losses++;
+          person.frames.losses += score;
+        }
+      };
+
       people.forEach(function(person) {
         if (!person.games) {
           person.games = {};
@@ -50,68 +61,38 @@ export default function() {
           person.frames = {};
         }
         if (person.name === game['name-one']) {
-          if (isOneWinner) {
-            person.games.wins++;
-            person.frames.wins += game['score-one'];
-          } else {
-            person.games.losses++;
-            person.frames.losses += game['score-one'];
-          }
+          update(person, isOneWinner, game['score-one']);
           isOneAdded = true;
         } else if (person.name === game['name-two']) {
-          if (isOneWinner) {
-            person.games.losses++;
-            person.frames.losses += game['score-two'];
-          } else {
-            person.games.wins++;
-            person.frames.wins += game['score-two'];
-          }
+          update(person, !isOneWinner, game['score-two']);
           isTwoAdded = true;
         }
       });
 
+      let createPerson = function(name, score, opponentScore) {
+        let games = {};
+        let frames = {};
+
+        frames.wins = score;
+        frames.losses = opponentScore;
+        games.wins = +(score > opponentScore);
+        games.losses = +(score < opponentScore);
+
+        return { name, games, frames, challenging: null };
+      };
+
       if (!isOneAdded) {
-        let games = {};
-        let frames = {};
-
-        if (isOneWinner) {
-          games.wins = 1;
-          games.losses = 0;
-          frames.wins = game['score-one'];
-          frames.losses = game['score-two'];
-        } else {
-          games.wins = 0;
-          games.losses = 1;
-          frames.wins = game['score-two'];
-          frames.losses = game['score-one'];
-        }
-
-        people.push({ name: game['name-one'], games, frames, challenging: null });
+        people.push(createPerson(game['name-one'], game['score-one'], game['score-two']));
       }
+
       if (!isTwoAdded) {
-        let games = {};
-        let frames = {};
-
-        if (isOneWinner) {
-          games.wins = 1;
-          games.losses = 0;
-          frames.wins = game['score-two'];
-          frames.losses = game['score-one'];
-        } else {
-          games.wins = 0;
-          games.losses = 1;
-          frames.wins = game['score-one'];
-          frames.losses = game['score-two'];
-        }
-
-        people.push({ name: game['name-two'], games, frames, challenging: null });
+        people.push(createPerson(game['name-two'], game['score-two'], game['score-one']));
       }
     });
 
     //Add fake challenging
     people[0].challenging = 2;
     people[2].challenging = 0;
-
 
     return {
       data: people.map(function(attributes, i) {
