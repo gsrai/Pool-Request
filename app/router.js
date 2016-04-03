@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('ladder');
   this.route('game');
   this.route('history');
+  this.route('admin');
 });
 
 export default Router;

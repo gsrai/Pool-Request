@@ -34,62 +34,62 @@ export default function() {
   // Doesn't know the swapping logic
   // Add a new user to the bottom
   // Updates their wins / losses
-  this.get('/people', function(db) {
-    let games = db.games;
-    let people = [];
+  // this.get('/people', function(db) {
+  //   let games = db.games;
+  //   let people = [];
 
-    games.forEach(function(game) {
-      let isOneWinner = game['score-one'] > game['score-two'];
-      let isOneAdded = false;
-      let isTwoAdded = false;
-      people.forEach(function(person) {
-        if (person.name === game['name-one']) {
-          isOneWinner ? person.wins++ : person.losses++;
-          isOneAdded = true;
-        } else if (person.name === game['name-two']) {
-          isOneWinner ? person.losses++ : person.wins++;
-          isTwoAdded = true;
-        }
-      });
+  //   games.forEach(function(game) {
+  //     let isOneWinner = game['score-one'] > game['score-two'];
+  //     let isOneAdded = false;
+  //     let isTwoAdded = false;
+  //     people.forEach(function(person) {
+  //       if (person.name === game['name-one']) {
+  //         isOneWinner ? person.wins++ : person.losses++;
+  //         isOneAdded = true;
+  //       } else if (person.name === game['name-two']) {
+  //         isOneWinner ? person.losses++ : person.wins++;
+  //         isTwoAdded = true;
+  //       }
+  //     });
 
-      if (!isOneAdded) {
-        let wins = 0;
-        let losses = 0;
+  //     if (!isOneAdded) {
+  //       let wins = 0;
+  //       let losses = 0;
 
-        isOneWinner ? wins++ : losses++;
+  //       isOneWinner ? wins++ : losses++;
 
-        people.push({ name: game['name-one'], wins: wins, losses: losses, challenging: null });
-      }
-      if (!isTwoAdded) {
-        let wins = 0;
-        let losses = 0;
+  //       people.push({ name: game['name-one'], wins: wins, losses: losses, challenging: null });
+  //     }
+  //     if (!isTwoAdded) {
+  //       let wins = 0;
+  //       let losses = 0;
 
-        isOneWinner ? losses++ : wins++;
+  //       isOneWinner ? losses++ : wins++;
 
-        people.push({ name: game['name-two'], wins: wins, losses: losses, challenging: null });
-      }
-    });
+  //       people.push({ name: game['name-two'], wins: wins, losses: losses, challenging: null });
+  //     }
+  //   });
 
-    //Add fake challenging
-    people[0].challenging = 2;
-    people[2].challenging = 0;
+  //   //Add fake challenging
+  //   people[0].challenging = 2;
+  //   people[2].challenging = 0;
 
 
-    return {
-      data: people.map(function(attributes, i) {
-        return { type: 'person', id: (i + 1), attributes };
-      })
-      };
-    }
-  );
+  //   return {
+  //     data: people.map(function(attributes, i) {
+  //       return { type: 'person', id: (i + 1), attributes };
+  //     })
+  //     };
+  //   }
+  // );
 
-  this.get('/games', function(db) {
-    return {
-      data: db.games.map(function(attributes, i) {
-        return { type: 'game', id: (i + 1), attributes };
-      })
-    };
-  });
+  // this.get('/games', function(db) {
+  //   return {
+  //     data: db.games.map(function(attributes, i) {
+  //       return { type: 'game', id: (i + 1), attributes };
+  //     })
+  //   };
+  // });
 
   /*
     POST shorthands
@@ -98,16 +98,16 @@ export default function() {
     this.post('/contacts', 'user'); // specify the type of resource to be created
   */
 
-  this.post('/games', function(db, request) {
-    var params = JSON.parse(request.requestBody).data.attributes;
-    params.type = 'game';
+  // this.post('/games', function(db, request) {
+  //   var params = JSON.parse(request.requestBody).data.attributes;
+  //   params.type = 'game';
 
-    if (!params['name-one'] || !params['name-one']) {
-      return new Mirage.Response(400, { a: 'header' }, { message: 'name cannot be blank' });
-    } else {
-      return {data: db.games.insert(params) };
-    }
-  });
+  //   if (!params['name-one'] || !params['name-one']) {
+  //     return new Mirage.Response(400, { a: 'header' }, { message: 'name cannot be blank' });
+  //   } else {
+  //     return {data: db.games.insert(params) };
+  //   }
+  // });
 
   /*
     PUT shorthands
