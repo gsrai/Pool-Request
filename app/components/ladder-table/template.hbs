@@ -1,10 +1,18 @@
 <tr>
-    <th>Position</th>
-    <th>Name</th>
+    <th rowspan="3">Position</th>
+    <th rowspan="3">Name</th>
+    <th rowspan="2" colspan="3">Games</th>
+    <th rowspan="2" colspan="3">Frames</th>
+    <th rowspan="3">Challenging</th>
+</tr>
+<tr></tr>
+<tr>
     <th>Wins</th>
     <th>Losses</th>
     <th>W/L</th>
-    <th>Challenging</th>
+    <th>Wins</th>
+    <th>Losses</th>
+    <th>W/L</th>
 </tr>
 {{#each displayedPeople as |person|}}
     <tr class={{person.classNames}}>
@@ -12,9 +20,12 @@
         <td class="name">
             {{#link-to 'history' (query-params name=person.name)}}{{person.name}}{{/link-to}}
         </td>
-        <td class="wins">{{person.wins}}</td>
-        <td class="losses">{{person.losses}}</td>
-        <td class="ratio">{{person.ratio}}</td>
+        <td class="games wins">{{person.games.wins}}</td>
+        <td class="games losses">{{person.games.losses}}</td>
+        <td class="games ratio">{{person.games.ratio}}</td>
+        <td class="frames wins">{{person.frames.wins}}</td>
+        <td class="frames losses">{{person.frames.losses}}</td>
+        <td class="frames ratio">{{person.frames.ratio}}</td>
         <td class="challenging">{{person.challenging}}</td>
     </tr>
 {{/each}}

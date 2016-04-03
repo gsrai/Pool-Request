@@ -43,30 +43,68 @@ export default function() {
       let isOneAdded = false;
       let isTwoAdded = false;
       people.forEach(function(person) {
+        if (!person.games) {
+          person.games = {};
+        }
+        if (!person.frames) {
+          person.frames = {};
+        }
         if (person.name === game['name-one']) {
-          isOneWinner ? person.wins++ : person.losses++;
+          if (isOneWinner) {
+            person.games.wins++;
+            person.frames.wins += game['score-one'];
+          } else {
+            person.games.losses++;
+            person.frames.losses += game['score-one'];
+          }
           isOneAdded = true;
         } else if (person.name === game['name-two']) {
-          isOneWinner ? person.losses++ : person.wins++;
+          if (isOneWinner) {
+            person.games.losses++;
+            person.frames.losses += game['score-two'];
+          } else {
+            person.games.wins++;
+            person.frames.wins += game['score-two'];
+          }
           isTwoAdded = true;
         }
       });
 
       if (!isOneAdded) {
-        let wins = 0;
-        let losses = 0;
+        let games = {};
+        let frames = {};
 
-        isOneWinner ? wins++ : losses++;
+        if (isOneWinner) {
+          games.wins = 1;
+          games.losses = 0;
+          frames.wins = game['score-one'];
+          frames.losses = game['score-two'];
+        } else {
+          games.wins = 0;
+          games.losses = 1;
+          frames.wins = game['score-two'];
+          frames.losses = game['score-one'];
+        }
 
-        people.push({ name: game['name-one'], wins: wins, losses: losses, challenging: null });
+        people.push({ name: game['name-one'], games, frames, challenging: null });
       }
       if (!isTwoAdded) {
-        let wins = 0;
-        let losses = 0;
+        let games = {};
+        let frames = {};
 
-        isOneWinner ? losses++ : wins++;
+        if (isOneWinner) {
+          games.wins = 1;
+          games.losses = 0;
+          frames.wins = game['score-two'];
+          frames.losses = game['score-one'];
+        } else {
+          games.wins = 0;
+          games.losses = 1;
+          frames.wins = game['score-one'];
+          frames.losses = game['score-two'];
+        }
 
-        people.push({ name: game['name-two'], wins: wins, losses: losses, challenging: null });
+        people.push({ name: game['name-two'], games, frames, challenging: null });
       }
     });
 
