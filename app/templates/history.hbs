@@ -1,9 +1,15 @@
-{{#if name}}
+{{#if hasPlayer}}
     <h2>History of {{name}}</h2>
     <p>A summary of all the games {{name}} has played</p>
 {{else}}
     <h2>Complete History</h2>
     <p>A summery of all the games played</p>
+
 {{/if}}
+
+<div>
+    {{input class="name" placeholder="filter" type="string" value=name}}
+    <button {{action "clear"}}>See all players history</button>
+</div>
 
 {{history-table games=filteredGames}}

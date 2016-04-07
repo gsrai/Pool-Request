@@ -15,5 +15,15 @@ export default Ember.Controller.extend({
     }
 
     return games.sortBy('date').reverse();
-  })
+  }),
+
+  hasPlayer: Ember.computed('name', 'filteredGames.length', function() {
+    return this.get('name') && this.get('filteredGames.length') > 0;
+  }),
+
+  actions: {
+    clear() {
+      this.set('name', null);
+    }
+  }
 });
