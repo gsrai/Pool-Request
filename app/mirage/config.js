@@ -34,62 +34,81 @@ export default function() {
   // Doesn't know the swapping logic
   // Add a new user to the bottom
   // Updates their wins / losses
-  // this.get('/people', function(db) {
-  //   let games = db.games;
-  //   let people = [];
+  this.get('/people', function(db) {
+    let games = db.games;
+    let people = [];
 
-  //   games.forEach(function(game) {
-  //     let isOneWinner = game['score-one'] > game['score-two'];
-  //     let isOneAdded = false;
-  //     let isTwoAdded = false;
-  //     people.forEach(function(person) {
-  //       if (person.name === game['name-one']) {
-  //         isOneWinner ? person.wins++ : person.losses++;
-  //         isOneAdded = true;
-  //       } else if (person.name === game['name-two']) {
-  //         isOneWinner ? person.losses++ : person.wins++;
-  //         isTwoAdded = true;
-  //       }
-  //     });
+    games.forEach(function(game) {
+      let isOneWinner = game['score-one'] > game['score-two'];
+      let isOneAdded = false;
+      let isTwoAdded = false;
 
-  //     if (!isOneAdded) {
-  //       let wins = 0;
-  //       let losses = 0;
+      let update = function(person, isWinner, score) {
+        if (isWinner) {
+          person.games.wins++;
+          person.frames.wins += score;
+        } else {
+          person.games.losses++;
+          person.frames.losses += score;
+        }
+      };
 
-  //       isOneWinner ? wins++ : losses++;
+      people.forEach(function(person) {
+        if (!person.games) {
+          person.games = {};
+        }
+        if (!person.frames) {
+          person.frames = {};
+        }
+        if (person.name === game['name-one']) {
+          update(person, isOneWinner, game['score-one']);
+          isOneAdded = true;
+        } else if (person.name === game['name-two']) {
+          update(person, !isOneWinner, game['score-two']);
+          isTwoAdded = true;
+        }
+      });
 
-  //       people.push({ name: game['name-one'], wins: wins, losses: losses, challenging: null });
-  //     }
-  //     if (!isTwoAdded) {
-  //       let wins = 0;
-  //       let losses = 0;
+      let createPerson = function(name, score, opponentScore) {
+        let games = {};
+        let frames = {};
 
-  //       isOneWinner ? losses++ : wins++;
+        frames.wins = score;
+        frames.losses = opponentScore;
+        games.wins = +(score > opponentScore);
+        games.losses = +(score < opponentScore);
 
-  //       people.push({ name: game['name-two'], wins: wins, losses: losses, challenging: null });
-  //     }
-  //   });
+        return { name, games, frames, challenging: null };
+      };
 
-  //   //Add fake challenging
-  //   people[0].challenging = 2;
-  //   people[2].challenging = 0;
+      if (!isOneAdded) {
+        people.push(createPerson(game['name-one'], game['score-one'], game['score-two']));
+      }
 
+      if (!isTwoAdded) {
+        people.push(createPerson(game['name-two'], game['score-two'], game['score-one']));
+      }
+    });
 
-  //   return {
-  //     data: people.map(function(attributes, i) {
-  //       return { type: 'person', id: (i + 1), attributes };
-  //     })
-  //     };
-  //   }
-  // );
+    //Add fake challenging
+    people[0].challenging = 2;
+    people[2].challenging = 0;
 
-  // this.get('/games', function(db) {
-  //   return {
-  //     data: db.games.map(function(attributes, i) {
-  //       return { type: 'game', id: (i + 1), attributes };
-  //     })
-  //   };
-  // });
+    return {
+      data: people.map(function(attributes, i) {
+        return { type: 'person', id: (i + 1), attributes };
+      })
+      };
+    }
+  );
+
+  this.get('/games', function(db) {
+    return {
+      data: db.games.map(function(attributes, i) {
+        return { type: 'game', id: (i + 1), attributes };
+      })
+    };
+  });
 
   /*
     POST shorthands

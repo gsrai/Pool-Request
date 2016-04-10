@@ -7,27 +7,39 @@ moduleForComponent('ladder-table', 'Integration | Component | ladder table', {
 });
 
 test('it renders table correctly', function(assert) {
-  assert.expect(13);
+  assert.expect(20);
   let people = [
     Ember.Object.create({
       name: 'foo',
       challenging: null,
-      wins: 3,
-      losses: 1
+      games: Ember.Object.create({
+        wins: 3,
+        losses: 1
+      }),
+      frames: Ember.Object.create({
+        wins: 9,
+        losses: 2
+      })
     }),
 
     Ember.Object.create({
       name: 'bar',
       challenging: 2,
-      wins: 2,
-      losses: 0
+      games: {
+        wins: 2,
+        losses: 0
+      },
+      frames: {}
     }),
 
     Ember.Object.create({
       name: 'Bob',
       challenging: 1,
-      wins: 0,
-      losses: 4
+      games: {
+        wins: 0,
+        losses: 4
+      },
+      frames: {}
     })
   ];
   this.set('people', people);
@@ -36,18 +48,25 @@ test('it renders table correctly', function(assert) {
 
   assert.equal(this.$('.person1 .position').text().trim(), '1');
   assert.equal(this.$('.person1 .name').text().trim(), 'foo');
-  assert.equal(this.$('.person1 .wins').text().trim(), '3');
-  assert.equal(this.$('.person1 .losses').text().trim(), '1');
-  assert.equal(this.$('.person1 .ratio').text().trim(), '3');
+  assert.equal(this.$('.person1 .games.wins').text().trim(), '3');
+  assert.equal(this.$('.person1 .games.losses').text().trim(), '1');
+  assert.equal(this.$('.person1 .games.ratio.winLoss').text().trim(), '3.00');
+  assert.equal(this.$('.person1 .games.ratio.winPercent').text().trim(), '75%');
+  assert.equal(this.$('.person1 .frames.wins').text().trim(), '9');
+  assert.equal(this.$('.person1 .frames.losses').text().trim(), '2');
+  assert.equal(this.$('.person1 .frames.ratio.winLoss').text().trim(), '4.50');
+  assert.equal(this.$('.person1 .frames.ratio.winPercent').text().trim(), '82%');
   assert.equal(this.$('.person1 .challenging').text().trim(), '');
 
   assert.equal(this.$('.unchallengeable').length, 2);
 
   assert.equal(this.$('.person2 .position').text().trim(), '2');
   assert.equal(this.$('.person2 .challenging').text().trim(), '3');
-  assert.equal(this.$('.person2 .ratio').text().trim(), '2');
+  assert.equal(this.$('.person2 .games.ratio.winLoss').text().trim(), '2.00');
+  assert.equal(this.$('.person2 .games.ratio.winPercent').text().trim(), '100%');
   assert.equal(this.$('.person3 .position').text().trim(), '3');
   assert.equal(this.$('.person3 .challenging').text().trim(), '2');
-  assert.equal(this.$('.person3 .ratio').text().trim(), '0');
+  assert.equal(this.$('.person3 .games.ratio.winLoss').text().trim(), '0.00');
+  assert.equal(this.$('.person3 .games.ratio.winPercent').text().trim(), '0%');
 
 });

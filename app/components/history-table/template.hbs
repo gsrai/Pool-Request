@@ -1,5 +1,6 @@
 {{#each games as |game|}}
   <tr>
+    <td class="date">{{format-date game.date}}</td>
     <td class="player playerOne">{{game.name-one}}</td>
     <td class="score" >{{game.score-one}} - {{game.score-two}}</td>
     <td class="player playerTwo">{{game.name-two}}</td>
