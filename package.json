@@ -1,6 +1,6 @@
 {
   "name": "pool-request",
-  "version": "0.2.1",
+  "version": "0.6.0",
   "description": "A pool ladder",
   "private": true,
   "directories": {
