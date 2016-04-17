@@ -5,16 +5,14 @@ export default Ember.Component.extend({
   classNames: 'ladder',
   people: null,
   displayedPeople: Ember.computed('people.[]', function() {
-    return this.get('people').map((person, i) => {
+    let people = this.get('people').map((person, i) => {
       let tmp = Ember.Object.create({
-        position: i + 1,
+        position: person.get('position'),
         name: person.get('name'),
         frames: person.get('frames'),
         games: person.get('games'),
         challenging: person.get('challenging')
       });
-
-      tmp.set('challenging', person.get('challenging') === null ? null : (person.get('challenging') + 1));
 
       let gameRatio = {
         winLoss: this._winLossRatio(person.get('games.wins'), person.get('games.losses')),
@@ -34,6 +32,9 @@ export default Ember.Component.extend({
 
       return tmp;
     });
+    return people.sort((a, b) => {
+      return a.get('position') - b.get('position');
+    });
   }),
 
   _winLossRatio(wins, losses) {
@@ -41,6 +42,10 @@ export default Ember.Component.extend({
   },
 
   _winPercent(wins, losses) {
-    return ((wins / (wins + losses)).toFixed(2) * 100) + '%';
+    if (wins === 0 && losses === 0) {
+      return '0%';
+    } else {
+      return ((wins / (wins + losses)).toFixed(2) * 100) + '%';
+    }
   }
 });

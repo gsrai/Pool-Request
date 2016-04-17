@@ -8,6 +8,9 @@ export default Ember.Controller.extend({
   playerFrameLosses: 0,
   challenger1: null,
   challenger2: null,
+  numberOfPlayers: Ember.computed('model.[]', function() {
+    return this.get('model').get('length');
+  }),
   unchallengedPlayers: Ember.computed('model.[]', function() {
     let players = this.get('model');
     return players.map((player, i) => {
@@ -36,10 +39,11 @@ export default Ember.Controller.extend({
             player = players.findBy('name', challenger2);
             player.set('challenging', challenger1);
             players.save();
-        });
+        }).then(() => this.transitionToRoute('ladder'));
     },
     addPlayers() {
       this.store.createRecord('person', {
+        position: this.get('numberOfPlayers') + 1,
         name: this.get('playerName'),
         games: {
             wins: this.get('playerGameWins'),
