@@ -1,3 +1,6 @@
+{{#if isEmpty}}
+  <p class="empty">No games to show</p>
+{{/if}}
 {{#each games as |game|}}
   <tr>
     <td class="date">{{format-date game.date}}</td>

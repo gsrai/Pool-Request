@@ -56,6 +56,16 @@ test('it filters when name is specified', function(assert) {
   assert.equal(subject.get('filteredGames').objectAt(1)['name-one'], name);
 });
 
+test('action clear clears name', function(assert) {
+  let subject = this.subject({
+    name: 'foo'
+  });
+
+  subject.send('clear');
+
+  assert.equal(subject.get('name'), null);
+});
+
 test('it sorts history by date, most recent at top', function(assert) {
    assert.expect(3);
     let games = Ember.A([

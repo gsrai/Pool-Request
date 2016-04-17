@@ -7,7 +7,7 @@ moduleForComponent('ladder-table', 'Integration | Component | ladder table', {
 });
 
 test('it renders table correctly', function(assert) {
-  assert.expect(20);
+  assert.expect(22);
   let people = [
     Ember.Object.create({
       name: 'foo',
@@ -48,10 +48,12 @@ test('it renders table correctly', function(assert) {
 
   assert.equal(this.$('.person1 .position').text().trim(), '1');
   assert.equal(this.$('.person1 .name').text().trim(), 'foo');
+  assert.equal(this.$('.person1 .games.played').text().trim(), '4');
   assert.equal(this.$('.person1 .games.wins').text().trim(), '3');
   assert.equal(this.$('.person1 .games.losses').text().trim(), '1');
   assert.equal(this.$('.person1 .games.ratio.winLoss').text().trim(), '3.00');
   assert.equal(this.$('.person1 .games.ratio.winPercent').text().trim(), '75%');
+  assert.equal(this.$('.person1 .frames.played').text().trim(), '11');
   assert.equal(this.$('.person1 .frames.wins').text().trim(), '9');
   assert.equal(this.$('.person1 .frames.losses').text().trim(), '2');
   assert.equal(this.$('.person1 .frames.ratio.winLoss').text().trim(), '4.50');
