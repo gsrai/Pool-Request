@@ -117,16 +117,16 @@ export default function() {
     this.post('/contacts', 'user'); // specify the type of resource to be created
   */
 
-  // this.post('/games', function(db, request) {
-  //   var params = JSON.parse(request.requestBody).data.attributes;
-  //   params.type = 'game';
+  this.post('/games', function(db, request) {
+    var params = JSON.parse(request.requestBody).data.attributes;
+    params.type = 'game';
 
-  //   if (!params['name-one'] || !params['name-one']) {
-  //     return new Mirage.Response(400, { a: 'header' }, { message: 'name cannot be blank' });
-  //   } else {
-  //     return {data: db.games.insert(params) };
-  //   }
-  // });
+    if (!params['name-one'] || !params['name-one']) {
+      return new Mirage.Response(400, { a: 'header' }, { message: 'name cannot be blank' });
+    } else {
+      return {data: db.games.insert(params) };
+    }
+  });
 
   /*
     PUT shorthands
