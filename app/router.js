@@ -9,7 +9,6 @@ Router.map(function() {
   this.route('game-rules', { path: 'rules/game' });
   this.route('ladder-rules', { path: 'rules/ladder' });
   this.route('ladder');
-  this.route('game');
   this.route('history');
   this.route('admin');
 });

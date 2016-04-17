@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'pool-request',
     environment: environment,
     contentSecurityPolicy: { 'connect-src': "'self' https://auth.firebase.com wss://*.firebaseio.com" },
-    firebase: 'https://dazzling-heat-4308.firebaseio.com/',
+    firebase: 'https://popping-heat-7651.firebaseio.com/',
     baseURL: '/',
     locationType: 'auto',
     EmberENV: {
