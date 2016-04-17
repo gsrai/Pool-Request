@@ -1,37 +1,8 @@
 <div class="admin-container">
-  <h1>Add Players</h1>
-  <form class="add-player-form" {{action "addPlayers" on="submit"}}>
-      <fieldset>
-          <h2>Add Player</h2>
-          <label>
-              Name
-              {{input class="playerName" type="text" value=playerName}}
-          </label>
-          <label>
-              Games Won
-              {{input class="playerGameWins" type="number" value=playerGameWins}}
-          </label>
-          <label>
-              Games Lost
-              {{input class="playerGameLosses" type="number" value=playerGameLosses}}
-          </label>
-          <label>
-              Frames Won
-              {{input class="playerFrameWins" type="number" value=playerFrameWins}}
-          </label>
-          <label>
-              Frames Lost
-              {{input class="playerFrameLosses" type="number" value=playerFrameLosses}}
-          </label>
-      </fieldset>
-      <input type="submit" value="submit" class="submitButton">
-  </form>
-</div>
-<div class="admin-container">
-  <h1>Challenge Form</h1>
+  <h2>Challenge Form</h2>
   <form class="challenge-form" {{action "addChallenged" on="submit"}}>
       <fieldset>
-          <h2>add Challenge</h2>
+          <h3>Add Challenge</h3>
           <label>
               Player 1:
               {{select-component 
@@ -45,6 +16,77 @@
               selectOption="selectChallenger2"}}
           </label>
       </fieldset>
+      <fieldset>
+        <input type="submit" value="submit" class="submitButton">
+      </fieldset>
+  </form>
+</div>
+<div class="admin-container">
+  <h2>Add Game</h2>
+
+  <form class="game" {{action "addGame" on="submit"}}>
+      <fieldset>
+          <h3>Player one</h3>
+          <label>
+              Name
+              {{input class="nameOne" type="text" value=nameOne placeholder="The Winner"}}
+          </label>
+          <label>
+              Score
+              {{input class="scoreOne" type="number" value=scoreOne}}
+          </label>
+      </fieldset>
+      <fieldset>
+
+          <h3>Player two</h3>
+          <label>
+              Name
+              {{input class="nameTwo" type="text" value=nameTwo placeholder="The Looser"}}
+          </label>
+          <label>
+              Score
+              {{input class="scoreTwo" type="number" value=scoreTwo}}
+          </label>
+      </fieldset>
+      <fieldset>
+          <label class="dateLabel">
+              Date finished
+              {{input class="date" type="date" value=date}}
+          </label>
+
+          {{input class="submitButton" type="submit" value="submit" }}
+      </fieldset>
+
+  </form>
+</div>
+<div class="admin-container">
+  <h2>Add Players</h2>
+  <form class="add-player-form" {{action "addPlayers" on="submit"}}>
+    <fieldset>
+      <h3>Add Player</h3>
+      <label>
+        Name
+        {{input class="playerName" type="text" value=playerName}}
+      </label>
+      <label>
+        Games Won
+        {{input class="playerGameWins" type="number" value=playerGameWins}}
+      </label>
+      <label>
+        Games Lost
+        {{input class="playerGameLosses" type="number" value=playerGameLosses}}
+      </label>
+      <label>
+        Frames Won
+        {{input class="playerFrameWins" type="number" value=playerFrameWins}}
+      </label>
+      <label>
+        Frames Lost
+        {{input class="playerFrameLosses" type="number" value=playerFrameLosses}}
+      </label>
+    </fieldset>
+    <fieldset>
       <input type="submit" value="submit" class="submitButton">
+    </fieldset>
   </form>
 </div>

@@ -8,7 +8,6 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('rules');
   this.route('ladder');
-  this.route('game');
   this.route('history');
   this.route('admin');
 });
