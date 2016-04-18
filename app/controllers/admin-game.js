@@ -14,28 +14,33 @@ export default Ember.Controller.extend({
   playerFrameLosses: 0,
   challenger1: null,
   challenger2: null,
+
   numberOfPlayers: Ember.computed('model.[]', function() {
     return this.get('model').get('length');
   }),
+  
   unchallengedPlayers: Ember.computed('model.[]', function() {
     let players = this.get('model');
     return players.map((player, i) => {
         let selected = (i === 0);
         return {
-            display: player.get('name'), 
+            display: player.get('name'),
             challenged: !!player.get('challenging'),
             value: player.get('name'),
             selected
         };
     }).filter((player) => !player.challenged);
   }),
+
   actions: {
     selectChallenger1(challenger) {
         this.set('challenger1', challenger);
     },
+
     selectChallenger2(challenger) {
         this.set('challenger2', challenger);
     },
+
     addChallenged() {
         let challenger1 = this.get('challenger1');
         let challenger2 = this.get('challenger2');
@@ -47,6 +52,7 @@ export default Ember.Controller.extend({
             players.save();
         }).then(() => this.transitionToRoute('ladder'));
     },
+
     addPlayers() {
       this.store.createRecord('person', {
         position: this.get('numberOfPlayers') + 1,
