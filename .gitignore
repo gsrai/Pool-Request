@@ -16,5 +16,8 @@
 npm-debug.log
 testem.log
 
+# Mac Stuff
+.DS_Store
+
 #Jetbrains
 .idea/**
