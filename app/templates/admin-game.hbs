@@ -1,9 +1,8 @@
-
-  <h2>
-    {{#link-to "admin-player" class="unactive"}}Add Player{{/link-to}}
-    {{#link-to "admin-challenging" class="unactive"}}Add Challenging{{/link-to}}
-    {{#link-to "admin-game" class="active"}}Add Game{{/link-to}}
-  </h2>
+<h2 class="multiHeader">
+  {{#link-to "admin-game" class="active"}}Add Game{{/link-to}}
+  {{#link-to "admin-challenging" class="unactive"}}Add Challenging{{/link-to}}
+  {{#link-to "admin-player" class="unactive"}}Add Player{{/link-to}}
+</h2>
 <div class="admin-container">
   <form class="game" {{action "addGame" on="submit"}}>
       <fieldset>
