@@ -2,6 +2,41 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Controller.extend({
+  isAuthenticated: Ember.computed('authenticated', function() {
+    return this.get('authenticated');
+  }),
+  onInit: Ember.on('init', function() {
+    let ref = new Firebase("https://popping-heat-7651.firebaseio.com");
+    let authData = ref.getAuth();
+
+    if (authData) {
+      this.set('authenticated', true);
+    } else {
+      this.set('authenticated', false);
+    }
+  }),
+  authenticate(email, password) {
+    let ref = new Firebase("https://popping-heat-7651.firebaseio.com");
+    ref.authWithPassword({
+      email : email,
+      password : password
+    }, (error, authData) => {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        this.set('authenticated', true);
+      }
+    }, {
+      remember: "sessionOnly"
+    });
+  },
+  unAuthenticate() {
+    let ref = new Firebase("https://popping-heat-7651.firebaseio.com");
+    ref.unauth();
+    this.set('authenticated', false);
+  },
+  adminEmail: '',
+  adminPassword: '',
   nameOne: null,
   scoreOne: 2,
   nameTwo: null,
@@ -30,6 +65,14 @@ export default Ember.Controller.extend({
     }).filter((player) => !player.challenged);
   }),
   actions: {
+    login() {
+      let email = this.get('adminEmail');
+      let password = this.get('adminPassword');
+      this.authenticate(email, password);
+    },
+    logout() {
+      this.unAuthenticate();
+    },
     selectChallenger1(challenger) {
         this.set('challenger1', challenger);
     },
