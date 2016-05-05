@@ -1,0 +1,17 @@
+<form class="challenge-form" {{action "addChallenged" on="submit"}}>
+    <fieldset>
+        <label>
+            Player 1:
+            {{select-component
+            options=unchallengedPlayers
+            selectOption="selectChallenger1"}}
+        </label>
+        <label>
+            Player 2:
+            {{select-component
+            options=unchallengedPlayers
+            selectOption="selectChallenger2"}}
+        </label>
+    </fieldset>
+    <input type="submit" value="submit" class="submitButton">
+</form>

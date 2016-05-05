@@ -1,0 +1,37 @@
+<form class="game" {{action "addGame" on="submit"}}>
+    <fieldset>
+        <h3>Player one</h3>
+        <label>
+            Name
+            {{select-component
+            options=players
+            selectOption="selectPlayer1"}}
+        </label>
+        <label>
+          Score
+          {{input class="scoreOne" type="number" value=scoreOne}}
+        </label>
+    </fieldset>
+    <fieldset>
+
+        <h3>Player two</h3>
+        <label>
+            Name
+            {{select-component
+            options=players
+            selectOption="selectPlayer2"}}
+        </label>
+        <label>
+            Score
+            {{input class="scoreTwo" type="number" value=scoreTwo}}
+        </label>
+    </fieldset>
+    <fieldset>
+        <label class="dateLabel">
+            Date finished
+            {{input class="date" type="date" value=date}}
+        </label>
+
+        {{input class="submitButton" type="submit" value="submit" }}
+    </fieldset>
+</form>

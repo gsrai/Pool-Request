@@ -1,27 +1,29 @@
 import Ember from 'ember';
-import moment from 'moment';
 
-export default Ember.Controller.extend({
+export default Ember.Component.extend({
+  classNames: ['admin-container'],
   playerName: null,
 
   numberOfPlayers: Ember.computed.alias('model.length'),
 
   actions: {
     addPlayers() {
-      this.store.createRecord('person', {
+      this.get('store').createRecord('person', {
         position: this.get('numberOfPlayers') + 1,
         name: this.get('playerName'),
-        games: {
-            wins: 0,
-            losses: 0
-        },
-        frames: {
-            wins: 0,
-            losses: 0
-        },
+        games: Ember.Object.create({
+          wins: 0,
+          losses: 0
+        }),
+        frames: Ember.Object.create({
+          wins: 0,
+          losses: 0
+        }),
         challenging: null
       }).save().then(() => {
+        debugger;
         this.set('playerName', '');
+        this.sendAction('transitionToGame');
       }).catch(function(error) {
         // TODO maybe should show there was an error on screen
         console.log('caught: ' + error);

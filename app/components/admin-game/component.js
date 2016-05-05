@@ -1,25 +1,15 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-export default Ember.Controller.extend({
+export default Ember.Component.extend({
+  classNames: ['admin-container'],
   nameOne: null,
   scoreOne: 2,
   nameTwo: null,
   scoreTwo: 0,
   date: moment().format('YYYY-MM-DD'),
-  playerName: '',
-  playerGameWins: 0,
-  playerGameLosses: 0,
-  playerFrameWins: 0,
-  playerFrameLosses: 0,
-  challenger1: null,
-  challenger2: null,
 
-  numberOfPlayers: Ember.computed('model.[]', function() {
-    return this.get('model').get('length');
-  }),
-  
-  unchallengedPlayers: Ember.computed('model.[]', function() {
+  players: Ember.computed('model.[]', 'model.@each.challenging', function() {
     let players = this.get('model');
     return players.map((player, i) => {
         let selected = (i === 0);
@@ -29,59 +19,21 @@ export default Ember.Controller.extend({
             value: player.get('name'),
             selected
         };
-    }).filter((player) => !player.challenged);
+    }).filter((player) => player.challenged);
   }),
 
   actions: {
-    selectChallenger1(challenger) {
-        this.set('challenger1', challenger);
+    selectPlayer1(player) {
+        this.set('nameOne', player);
     },
 
-    selectChallenger2(challenger) {
-        this.set('challenger2', challenger);
-    },
-
-    addChallenged() {
-        let challenger1 = this.get('challenger1');
-        let challenger2 = this.get('challenger2');
-        this.store.findAll('person').then(function(players) {
-            let player = players.findBy('name', challenger1);
-            player.set('challenging', challenger2);
-            player = players.findBy('name', challenger2);
-            player.set('challenging', challenger1);
-            players.save();
-        }).then(() => this.transitionToRoute('ladder'));
-    },
-
-    addPlayers() {
-      this.store.createRecord('person', {
-        position: this.get('numberOfPlayers') + 1,
-        name: this.get('playerName'),
-        games: {
-            wins: this.get('playerGameWins'),
-            losses: this.get('playerGameLosses')
-        },
-        frames: {
-            wins: this.get('playerFrameWins'),
-            losses: this.get('playerFrameLosses')
-        },
-        challenging: null
-      }).save().then(() => {
-        this.set('playerName', '');
-        this.set('playerGameWins', 0);
-        this.set('playerGameLosses', 0);
-        this.set('playerFrameWins', 0);
-        this.set('playerFrameLosses', 0);
-        this.transitionToRoute('ladder');
-      }).catch(function(error) {
-        // TODO maybe should show there was an error on screen
-        console.log('caught: ' + error);
-      });
+    selectPlayer2(player) {
+        this.set('nameTwo', player);
     },
     addGame() {
       let p1 = {name: this.get('nameOne'), score: Number(this.get('scoreOne'))};
       let p2 = {name: this.get('nameTwo'), score: Number(this.get('scoreTwo'))};
-      this.store.findAll('person').then(function(players) {
+      this.get('store').findAll('person').then(function(players) {
         // assuming nameOne is the winner
         let winner = players.findBy('name', p1.name);
         let loser = players.findBy('name', p2.name);
@@ -112,7 +64,7 @@ export default Ember.Controller.extend({
         loser.set('challenging', null);
         players.save();
       }).then(() => {
-        this.store.createRecord('game', {
+        this.get('store').createRecord('game', {
           'name-one': this.get('nameOne'),
           'score-one': this.get('scoreOne'),
           'name-two': this.get('nameTwo'),
@@ -121,7 +73,7 @@ export default Ember.Controller.extend({
         }).save().then(() => {
           this.set('nameOne', '');
           this.set('nameTwo', '');
-          this.transitionToRoute('history');
+          this.sendAction('transitionToGame');
         }).catch(function(error) {
           // TODO maybe should show there was an error on screen
           console.log('caught: ' + error);
