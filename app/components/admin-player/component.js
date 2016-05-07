@@ -21,7 +21,6 @@ export default Ember.Component.extend({
         }),
         challenging: null
       }).save().then(() => {
-        debugger;
         this.set('playerName', '');
         this.sendAction('transitionToGame');
       }).catch(function(error) {

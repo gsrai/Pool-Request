@@ -12,7 +12,8 @@ export default function() {
   this.get('/people', function(db) {
     return {
       data: db.people.map(function(attributes, i) {
-        return { type: 'person', id: (i + 1), attributes };
+        attributes.id = i + 1;
+        return { type: 'person', id: i + 1, attributes };
       })
     };
   });
@@ -20,7 +21,7 @@ export default function() {
   this.get('/games', function(db) {
     return {
       data: db.games.map(function(attributes, i) {
-        return { type: 'game', id: (i + 1), attributes };
+        return { type: 'game', id: i, attributes };
       })
     };
   });
@@ -41,11 +42,19 @@ export default function() {
   this.post('/people', function(db, request) {
     var params = JSON.parse(request.requestBody).data.attributes;
     params.type = 'person';
-    
+
     if (!params.name) {
       return new Mirage.Response(400, { a: 'header' }, { message: 'name cannot be blank'});
     }
     return { data: db.people.insert(params) };
+  });
+
+  this.patch('/people/:id', function(db, request) {
+    var id = request.params.id;
+    var params = JSON.parse(request.requestBody).data.attributes;
+    params.type = 'person';
+
+    return { data: db.people.update(id, params) };
   });
 
   /*

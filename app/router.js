@@ -11,9 +11,6 @@ Router.map(function() {
   this.route('ladder');
   this.route('history');
   this.route('admin');
-  this.route('admin-challenging', { path: '/admin/challenging'});
-  this.route('admin-game', { path: '/admin/game'});
-  this.route('admin-player', { path: '/admin/player'});
 });
 
 export default Router;
