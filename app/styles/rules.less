@@ -1,0 +1,16 @@
+.rules {
+  & a {
+    color: @darker;
+    padding-right: 10px;
+    text-decoration: none;
+    &:hover {
+      color: @lighter;
+    }
+    &.active {
+      color: @light;
+    }
+    &.unactive {
+      font-size: 16px;
+    }
+  }
+}
