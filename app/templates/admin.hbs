@@ -1,10 +1,12 @@
-<h2 class="multiHeader">
-  <a {{action "setSection" "admin-challenging"}} id="admin-challenging"
-    class="{{if (eq section "admin-challenging") 'active'}}">Add challenging</a>
-  <a {{action "setSection" "admin-game"}} id="admin-game"
-    class="{{if (eq section "admin-game") 'active'}}">Add game</a>
-  <a {{action "setSection" "admin-player"}}  id="admin-player"
-    class="{{if (eq section "admin-player") 'active'}}">Add player</a>
-</h2>
+{{#if isAuthenticated}}
+  <h2 class="multiHeader">
+    <a {{action "setSection" "admin-challenging"}} id="admin-challenging"
+      class="{{if (eq section "admin-challenging") 'active'}}">Add challenging</a>
+    <a {{action "setSection" "admin-game"}} id="admin-game"
+      class="{{if (eq section "admin-game") 'active'}}">Add game</a>
+    <a {{action "setSection" "admin-player"}}  id="admin-player"
+      class="{{if (eq section "admin-player") 'active'}}">Add player</a>
+  </h2>
 
-{{component section model=model store=store transitionToGame="transitionToGame"}}
+  {{component section model=model store=store transitionToGame="transitionToGame"}}
+{{/if}}
