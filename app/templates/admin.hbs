@@ -1,7 +1,10 @@
 <h2 class="multiHeader">
-  <a {{action "setSection" "admin-challenging"}} class={{admin-challengingClass}} id="admin-challenging">Add challenging</a>
-  <a {{action "setSection" "admin-game"}} class={{admin-gameClass}} id="admin-game">Add game</a>
-    <a {{action "setSection" "admin-player"}} class={{admin-playerClass}} id="admin-player">Add player</a>
+  <a {{action "setSection" "admin-challenging"}} id="admin-challenging"
+    class="{{if (eq section "admin-challenging") 'active'}}">Add challenging</a>
+  <a {{action "setSection" "admin-game"}} id="admin-game"
+    class="{{if (eq section "admin-game") 'active'}}">Add game</a>
+  <a {{action "setSection" "admin-player"}}  id="admin-player"
+    class="{{if (eq section "admin-player") 'active'}}">Add player</a>
 </h2>
 
 {{component section model=model store=store transitionToGame="transitionToGame"}}

@@ -23,11 +23,11 @@ h2 {
 
   & a {
     padding: 5px;
-
+    text-decoration: none;
     color: @dark;
 
     &:hover {
-      color: white;
+      color: @light;
     }
   }
 }
@@ -38,18 +38,19 @@ h2 {
 }
 
 .multiHeader {
-  & a {
+  a {
     color: @darker;
     padding-right: 10px;
     text-decoration: none;
+    font-size: 16px;
+
     &:hover {
-      color: @lighter;
-    }
-    &.active {
       color: @light;
     }
-    &.unactive {
-      font-size: 16px;
+
+    &.active {
+      color: @lighter;
+      font-size: 24px;
     }
   }
 }
