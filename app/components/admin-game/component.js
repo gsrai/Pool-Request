@@ -35,14 +35,15 @@ export default Ember.Component.extend({
         this.set('nameOne', player);
         this.get('store').findAll('person').then((players) => {
           let playerTwo = players.findBy('name', player);
-          this.set('nameTwo', playerTwo.get('challenging'));
+          let nameTwo = playerTwo ? playerTwo.get('challenging') : 'no challenger found';
+          this.set('nameTwo', nameTwo);
         });
     },
 
     addGame() {
       let p1 = {name: this.get('nameOne'), score: Number(this.get('scoreOne'))};
       let p2 = {name: this.get('nameTwo'), score: Number(this.get('scoreTwo'))};
-      this.get('store').findAll('person').then(function(players) {
+      this.get('store').findAll('person').then((players) => {
         // Start with assuming nameOne is the winner
         let winner = players.findBy('name', p1.name);
         let loser = players.findBy('name', p2.name);
@@ -57,12 +58,11 @@ export default Ember.Component.extend({
         let loserScore = Math.min(p1.score, p2.score);
         let wp = winner.get('position');
         let lp = loser.get('position');
-        let highPosition = Math.max(wp, lp);
-        let lowerPosition = Math.min(wp, lp);
+        let topPosition = Math.min(wp, lp);
+        let lowerPosition = Math.max(wp, lp);
 
-        this.incrementProperty(winner, highPosition, winnerScore, loserScore);
-
-        this.incrementProperty(loser, lowerPosition, loserScore, winnerScore);
+        this.incrementResults(winner, topPosition, winnerScore, loserScore);
+        this.incrementResults(loser, lowerPosition, loserScore, winnerScore);
 
         players.save();
       }).then(() => {
