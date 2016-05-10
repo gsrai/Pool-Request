@@ -9,4 +9,24 @@
   </h2>
 
   {{component section model=model store=store transitionToGame="transitionToGame"}}
+{{else}}
+  <div class="admin-container">
+    <h2>Login Form</h2>
+      <form class="login-form" {{action "login" on="submit"}}>
+          <fieldset>
+              <h3>Login</h3>
+              <label>
+                  Email
+                  {{input class="email" type="email" value=adminEmail placeholder="foo@bar.com"}}
+              </label>
+              <label>
+                  Password
+                  {{input class="password" type="password" value=adminPassword}}
+              </label>
+          </fieldset>
+          <fieldset>
+            <input type="submit" value="login" class="submitButton">
+          </fieldset>
+      </form>
+  </div>
 {{/if}}

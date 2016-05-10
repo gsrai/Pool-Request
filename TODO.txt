@@ -1,0 +1,20 @@
+TODO
+
+can they all extend admin?
+should not be able to challenge/play yourself
+
+make a mirage branch and a firebase branch?
+
+make rules similar to admin? switch games rules be at front
+make header a component
+
+player two should be the challenger of player one.
+
+Can action be extracted out of admin and put into {{yeild}}?
+|each el|
+{{yield (action "setSection" (el.id))}}
+|/each|
+???
+
+
+make init run every time, not just first load.

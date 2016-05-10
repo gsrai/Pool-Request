@@ -37,6 +37,14 @@ export default Ember.Controller.extend({
     this.set('authenticated', false);
   },
   actions: {
+    login() {
+      let email = this.get('adminEmail');
+      let password = this.get('adminPassword');
+      this.authenticate(email, password);
+    },
+    logout() {
+      this.unAuthenticate();
+    },
     setSection(section) {
       this.set('section', section);
     },
