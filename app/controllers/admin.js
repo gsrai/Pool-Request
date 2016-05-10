@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import moment from 'moment';
+import Firebase from 'firebase';
 
 export default Ember.Controller.extend({
   section: 'admin-challenging',
@@ -21,7 +21,7 @@ export default Ember.Controller.extend({
     ref.authWithPassword({
       email : email,
       password : password
-    }, (error, authData) => {
+    }, (error) => {
       if (error) {
         console.log("Login Failed!", error);
       } else {
@@ -37,8 +37,8 @@ export default Ember.Controller.extend({
     this.set('authenticated', false);
   },
   actions: {
-    setSection() {
-      this.send('setSection');
+    setSection(section) {
+      this.set('section', section);
     },
     transitionToGame() {
       this.transitionToRoute('ladder');

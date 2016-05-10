@@ -18,11 +18,10 @@
         <h3>Player two</h3>
         <label>
             Name
-            {{select-component
-              class="nameTwo"
-              options=players
-              selectOption="selectPlayer2"}}
         </label>
+        <span>
+          {{nameTwo}}
+        </span>
         <label>
             Score
             {{input class="scoreTwo" type="number" value=scoreTwo}}

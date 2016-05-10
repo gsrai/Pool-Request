@@ -22,46 +22,48 @@ export default Ember.Component.extend({
     }).filter((player) => player.challenged);
   }),
 
+  incrementResults(player, position, framesWon, framesLost) {
+    player.set('position', position);
+    player.incrementProperty('games.wins', 1);
+    player.incrementProperty('frames.wins', framesWon);
+    player.incrementProperty('frames.losses', framesLost);
+    player.set('challenging', null);
+  },
+
   actions: {
     selectPlayer1(player) {
         this.set('nameOne', player);
+        this.get('store').findAll('person').then((players) => {
+          let playerTwo = players.findBy('name', player);
+          this.set('nameTwo', playerTwo.get('challenging'));
+        });
     },
 
-    selectPlayer2(player) {
-        this.set('nameTwo', player);
-    },
     addGame() {
       let p1 = {name: this.get('nameOne'), score: Number(this.get('scoreOne'))};
       let p2 = {name: this.get('nameTwo'), score: Number(this.get('scoreTwo'))};
       this.get('store').findAll('person').then(function(players) {
-        // assuming nameOne is the winner
+        // Start with assuming nameOne is the winner
         let winner = players.findBy('name', p1.name);
         let loser = players.findBy('name', p2.name);
 
+        if (p2.score > p1.score) {
+          let tmp = winner;
+          winner = loser;
+          loser = tmp;
+        }
+
+        let winnerScore = Math.max(p1.score, p2.score);
+        let loserScore = Math.min(p1.score, p2.score);
         let wp = winner.get('position');
         let lp = loser.get('position');
-        // if the winner is the challenger then swap positions
-        winner.set('position', (wp > lp) ? lp : wp);
-        winner.set('games', {
-          wins: winner.get('games.wins') + 1,
-          losses: winner.get('games.losses')
-        });
-        winner.set('frames', {
-          wins: winner.get('frames.wins') + p1.score,
-          losses: winner.get('frames.losses') + p2.score
-        });
-        winner.set('challenging', null);
+        let highPosition = Math.max(wp, lp);
+        let lowerPosition = Math.min(wp, lp);
 
-        loser.set('position', (wp > lp) ? wp : lp);
-        loser.set('games', {
-          wins: loser.get('games.wins'),
-          losses: loser.get('games.losses') + 1
-        });
-        loser.set('frames', {
-          wins: loser.get('frames.wins') + p2.score,
-          losses: loser.get('frames.losses') + p1.score
-        });
-        loser.set('challenging', null);
+        this.incrementProperty(winner, highPosition, winnerScore, loserScore);
+
+        this.incrementProperty(loser, lowerPosition, loserScore, winnerScore);
+
         players.save();
       }).then(() => {
         this.get('store').createRecord('game', {
