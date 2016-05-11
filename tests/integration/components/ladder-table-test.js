@@ -11,6 +11,7 @@ test('it renders table correctly', function(assert) {
   let people = [
     Ember.Object.create({
       name: 'foo',
+      position:1,
       challenging: null,
       games: Ember.Object.create({
         wins: 3,
@@ -24,7 +25,8 @@ test('it renders table correctly', function(assert) {
 
     Ember.Object.create({
       name: 'bar',
-      challenging: 2,
+      position: 2,
+      challenging: 'Bob',
       games: {
         wins: 2,
         losses: 0
@@ -34,7 +36,8 @@ test('it renders table correctly', function(assert) {
 
     Ember.Object.create({
       name: 'Bob',
-      challenging: 1,
+      position: 3,
+      challenging: 'bar',
       games: {
         wins: 0,
         losses: 4
@@ -63,11 +66,11 @@ test('it renders table correctly', function(assert) {
   assert.equal(this.$('.unchallengeable').length, 2);
 
   assert.equal(this.$('.person2 .position').text().trim(), '2');
-  assert.equal(this.$('.person2 .challenging').text().trim(), '3');
+  assert.equal(this.$('.person2 .challenging').text().trim(), 'Bob');
   assert.equal(this.$('.person2 .games.ratio.winLoss').text().trim(), '2.00');
   assert.equal(this.$('.person2 .games.ratio.winPercent').text().trim(), '100%');
   assert.equal(this.$('.person3 .position').text().trim(), '3');
-  assert.equal(this.$('.person3 .challenging').text().trim(), '2');
+  assert.equal(this.$('.person3 .challenging').text().trim(), 'bar');
   assert.equal(this.$('.person3 .games.ratio.winLoss').text().trim(), '0.00');
   assert.equal(this.$('.person3 .games.ratio.winPercent').text().trim(), '0%');
 

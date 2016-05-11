@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   classNames: 'ladder',
   people: null,
   displayedPeople: Ember.computed('people.[]', function() {
-    let people = this.get('people').map((person, i) => {
+    let people = this.get('people').map((person) => {
       let tmp = Ember.Object.create({
         position: person.get('position'),
         name: person.get('name'),
@@ -51,7 +51,7 @@ export default Ember.Component.extend({
     if (wins === 0 && losses === 0) {
       return '0%';
     } else {
-      return ((wins / (wins + losses)).toFixed(2) * 100) + '%';
+      return Math.round(wins / (wins + losses) * 100) + '%';
     }
   }
 });
