@@ -1,0 +1,11 @@
+<form class="add-player-form" {{action "addPlayers" on="submit"}}>
+    <fieldset>
+        <label>
+            Name
+            {{input class="playerName" type="text" value=playerName}}
+        </label>
+    </fieldset>
+    <fieldset>
+        <input type="submit" value="submit" class="submitButton">
+    </fieldset>
+</form>
