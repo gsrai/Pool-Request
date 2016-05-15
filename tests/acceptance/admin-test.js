@@ -1,29 +1,31 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'pool-request/tests/helpers/module-for-acceptance';
 
-moduleForAcceptance('Acceptance | game');
+moduleForAcceptance('Acceptance | admin');
 
 test('should add new game', function(assert) {
-  assert.expect(9);
+  assert.expect(10);
   visit('/admin');
   click('#admin-game');
   fillIn('.nameOne', 'Sorin');
   fillIn('.scoreOne', '3');
-  fillIn('.nameTwo', 'Gagondeep');
   fillIn('.date', '1993-05-08');
-  click('input[type=submit]');
   andThen(() => {
-    assert.equal(currentURL(), '/ladder');
-    assert.equal(find('.person2 .name').text().trim(), 'Sorin');
-    assert.equal(find('.person3 .name').text().trim(), 'Gagondeep');
-    assert.equal(find('.person2 .challenging').text(), '');
-    assert.equal(find('.person3 .challenging').text(), '');
-    visit('/history');
+    click('input[type=submit]');
+    assert.equal(find('.nameTwo').text().trim(), 'Gagondeep');
     andThen(() => {
-      assert.equal(find('.playerOne:last').text().trim(), 'Sorin');
-      assert.equal(find('.score:last').text(), '3 - 0');
-      assert.equal(find('.playerTwo:last').text().trim(), 'Gagondeep');
-      assert.equal(find('.date:last').text(), '08/05/93');
+      assert.equal(currentURL(), '/ladder');
+      assert.equal(find('.person2 .name').text().trim(), 'Sorin');
+      assert.equal(find('.person3 .name').text().trim(), 'Gagondeep');
+      assert.equal(find('.person2 .challenging').text(), '');
+      assert.equal(find('.person3 .challenging').text(), '');
+      visit('/history');
+      andThen(() => {
+        assert.equal(find('.playerOne:last').text().trim(), 'Sorin');
+        assert.equal(find('.score:last').text(), '3 - 0');
+        assert.equal(find('.playerTwo:last').text().trim(), 'Gagondeep');
+        assert.equal(find('.date:last').text(), '08/05/93');
+      });
     });
   });
 });
