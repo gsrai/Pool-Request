@@ -37,7 +37,7 @@ export default Ember.Component.extend({
           let playerTwo = players.findBy('name', player);
           let nameTwo = playerTwo ? playerTwo.get('challenging') : 'no challenger found';
           this.set('nameTwo', nameTwo);
-        });
+        }).catch((error) => this.sendAction('setError', error));
     },
 
     addGame() {
@@ -61,6 +61,13 @@ export default Ember.Component.extend({
         let topPosition = Math.min(wp, lp);
         let lowerPosition = Math.max(wp, lp);
 
+        if (winnerScore > 3 || winnerScore < 0 || loserScore > 3 || loserScore < 0) {
+            throw new Error('Scores should be between 0 and 3');
+        }
+        if (winnerScore === loserScore) {
+          throw new Error('There should be a winner');
+        }
+
         this.incrementResults(winner, topPosition, winnerScore, loserScore);
         this.incrementResults(loser, lowerPosition, loserScore, winnerScore);
 
@@ -75,12 +82,10 @@ export default Ember.Component.extend({
         }).save().then(() => {
           this.set('nameOne', '');
           this.set('nameTwo', '');
+          this.sendAction('setError', '');
           this.sendAction('transitionToGame');
-        }).catch(function(error) {
-          // TODO maybe should show there was an error on screen
-          console.log('caught: ' + error);
-        });
-      });
+        }).catch((error) => this.sendAction('setError', error));
+      }).catch((error) => this.sendAction('setError', error));
     }
   }
 });

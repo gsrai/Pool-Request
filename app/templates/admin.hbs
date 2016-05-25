@@ -10,7 +10,9 @@
   <button class="logoutButton" {{action "logout"}}>logout</button>
   </h2>
 
-  {{component section model=model store=store transitionToGame="transitionToGame"}}
+  {{component section model=model store=store
+    transitionToGame="transitionToGame" setError="setError"}}
+  {{admin-error errorMessage=errorMessage}}
 {{else}}
   <div class="admin-container">
     <h2>Login Form</h2>

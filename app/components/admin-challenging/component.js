@@ -32,12 +32,17 @@ export default Ember.Component.extend({
       let challenger2 = this.get('challenger2');
 
       this.get('store').findAll('person').then(function(players) {
+        if (challenger1 === challenger2) {
+          throw new Error('Can not challenge yourself');
+        }
         let player = players.findBy('name', challenger1);
         player.set('challenging', challenger2);
         player = players.findBy('name', challenger2);
         player.set('challenging', challenger1);
         players.save();
-      }).then(() => this.sendAction('transitionToGame'));
+      }, (error) => this.sendAction('setError', error))
+      .then(() => this.sendAction('transitionToGame'),
+        (error) => this.sendAction('setError', error));
     }
   }
 });

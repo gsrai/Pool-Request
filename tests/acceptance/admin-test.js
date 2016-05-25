@@ -54,3 +54,15 @@ test('should set new challenging players', function(assert) {
     assert.equal(find('.person5 .challenging').text().trim(), 'Luke');
   });
 });
+
+test('should set an error', function(assert) {
+  assert.expect(2);
+  visit('/admin');
+  fillIn('.playerOne', 'Luke');
+  fillIn('.playerTwo', 'Luke');
+  click('input[type=submit]');
+  andThen(() => {
+    assert.equal(currentURL(), '/admin');
+    assert.equal(find('.admin-error--visible').length, 1);
+  });
+});
