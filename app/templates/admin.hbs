@@ -1,5 +1,5 @@
 {{#if isAuthenticated}}
-  <h2 class="multiHeader">
+  <h2 class="multi-header">
     <a {{action "setSection" "admin-challenging"}} id="admin-challenging"
       class="{{if (eq section "admin-challenging") 'active'}}">Add challenging</a>
     <a {{action "setSection" "admin-game"}} id="admin-game"
@@ -7,7 +7,7 @@
     <a {{action "setSection" "admin-player"}}  id="admin-player"
       class="{{if (eq section "admin-player") 'active'}}">Add player</a>
 
-  <button class="logoutButton" {{action "logout"}}>logout</button>
+  <button class="logout-button" {{action "logout"}}>logout</button>
   </h2>
 
   {{component section model=model store=store
@@ -30,7 +30,7 @@
         </label>
       </fieldset>
       <fieldset>
-        <input type="submit" value="login" class="submitButton">
+        <input type="submit" value="login" class="submit-button">
       </fieldset>
     </form>
   </div>

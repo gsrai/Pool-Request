@@ -27,25 +27,25 @@
     }
   }
 
-  .submitButton {
+  .submit-button {
     width: 120px;
     height: 45px;
-    background-color: green;
+    background-color: @submitGreen;
     color: @lightest;
     font-size: 16px;
     border: none;
     margin: 10px;
   }
 
-  .scoreOne,
-  .scoreTwo {
+  .score-one,
+  .score-two {
     width: 50px;
   }
 }
 
 .admin-error {
   display: none;
-  border: 5px solid red;
+  border: 5px solid @errorRed;
   background-color: @dark;
   color: @light;
   padding: 4px;
@@ -55,7 +55,7 @@
   }
 }
 
-.logoutButton {
+.logout-button {
   float: right;
   width: 120px;
   height: 45px;
@@ -64,6 +64,7 @@
   font-size: 16px;
   border: none;
   margin: -10px;
+
   &:hover {
     color: @light;
   }

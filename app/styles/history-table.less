@@ -1,18 +1,27 @@
 .history {
-  & .score {
+  .score {
     text-align: center;
     width: 20%;
   }
 
-  & .player {
+  .player {
     width: 40%;
 
-    &One {
+    &-one {
       text-align: right;
     }
 
-    &Two {
+    &-two {
       text-align: left;
     }
+  }
+
+  .winner {
+    font-weight: bolder;
+    color: @winnerGreen;
+  }
+
+  .loser {
+    color: @loserRed;
   }
 }
