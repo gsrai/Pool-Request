@@ -1,7 +1,24 @@
 import { test } from 'qunit';
+import moment from 'moment';
 import moduleForAcceptance from 'pool-request/tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | admin');
+
+test('should set new challenging players', function(assert) {
+  assert.expect(5);
+  visit('/admin');
+  fillIn('.player-one', 'Luke');
+  fillIn('.player-two', 'Bradley');
+  click('input[type=submit]');
+  andThen(() => {
+    assert.equal(currentURL(), '/ladder');
+    assert.equal(find('.person1 .challenging').text().trim(), 'Bradley');
+    assert.equal(find('.person5 .challenging').text().trim(), 'Luke');
+    const date = moment(moment() + 604800000).format('DD/MM/YY');
+    assert.equal(find('.person1 .expiry').text().trim(), date);
+    assert.equal(find('.person5 .expiry').text().trim(), date);
+  });
+});
 
 test('should add new game', function(assert) {
   assert.expect(20);
@@ -27,6 +44,7 @@ test('should add new game', function(assert) {
       assert.equal(find('.person3 .games.wins').text().trim(), '1');
       assert.equal(find('.person2 .games.losses').text().trim(), '2');
       assert.equal(find('.person3 .games.losses').text().trim(), '2');
+
       assert.equal(find('.person2 .frames.wins').text().trim(), '6');
       assert.equal(find('.person3 .frames.wins').text().trim(), '3');
       assert.equal(find('.person2 .frames.losses').text().trim(), '5');
@@ -51,19 +69,6 @@ test('should add new person', function(assert) {
   andThen(() => {
     assert.equal(currentURL(), '/ladder');
     assert.equal(find('.person7 .name').text().trim(), 'Bob');
-  });
-});
-
-test('should set new challenging players', function(assert) {
-  assert.expect(3);
-  visit('/admin');
-  fillIn('.player-one', 'Luke');
-  fillIn('.player-two', 'Bradley');
-  click('input[type=submit]');
-  andThen(() => {
-    assert.equal(currentURL(), '/ladder');
-    assert.equal(find('.person1 .challenging').text().trim(), 'Bradley');
-    assert.equal(find('.person5 .challenging').text().trim(), 'Luke');
   });
 });
 
