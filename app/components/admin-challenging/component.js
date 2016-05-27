@@ -12,15 +12,49 @@ export default Ember.Component.extend({
   unchallengedPlayers: Ember.computed('model.[]', 'model.@each.challenging', function() {
     let players = this.get('model');
     return players.map((player, i) => {
-        let selected = (i === 0);
-        return {
-          display: player.get('name'),
-          challenged: !!player.get('challenging'),
-          value: player.get('name'),
-          selected
-        };
+        const selected = (i === 0);
+        return this.dropdownFormat(player, selected);
     }).filter((player) => !player.challenged);
   }),
+
+  posibleChallengers: Ember.computed('challenger1', function() {
+    if (!this.get('challenger1')) {
+      this.set('challenger2', null);
+      return [];
+    }
+    const players = this.get('model');
+    const position = players.findBy('name', this.get('challenger1')).get('position');
+
+    const posibleChallengers = [
+      { isValid: position - 2 >= 1, diff: -2 },
+      { isValid: position - 1 >= 1, diff: -1 },
+      { isValid: position + 1 <= players.get('length'), diff: 1 },
+      { isValid: position + 2 <= players.get('length'), diff: 2 }
+    ];
+
+    const challengers = [];
+    posibleChallengers.forEach((challenger) => {
+      if (challenger.isValid) {
+        let player = players.findBy('position', position + challenger.diff);
+        if (player && !player.get('challenging')) {
+          challengers.push(this.dropdownFormat(player, !challengers.length));
+        }
+      }
+    });
+
+    this.set('challenger2', challengers.length ? challengers[0].value : null);
+
+    return challengers;
+  }),
+
+  dropdownFormat(player, selected) {
+    return {
+      display: player.get('name'),
+      challenged: !!player.get('challenging'),
+      value: player.get('name'),
+      selected
+    };
+  },
 
   actions: {
     selectChallenger1(challenger) {
@@ -37,6 +71,9 @@ export default Ember.Component.extend({
       const expiry = new Date(this.get('expiry'));
 
       this.get('store').findAll('person').then(function(players) {
+        if (!challenger1 || !challenger2) {
+          throw new Error('Invalid challengers');
+        }
         if (challenger1 === challenger2) {
           throw new Error('Can not challenge yourself');
         }

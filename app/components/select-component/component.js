@@ -5,11 +5,10 @@ export default Ember.Component.extend({
   classNames: 'custom-select',
   options: null,
   onDidInsertElement: Ember.on('didInsertElement', function() {
-    let id = this.get('elementId');
-    Ember.$(`#${id}`).trigger('change');
+    this.$().trigger('change');
   }),
   change: function() {
-    let value = document.getElementById(this.get('elementId')).value;
+    let value = this.$().val();
     this.sendAction('selectOption', value);
   }
 });
