@@ -1,11 +1,9 @@
 {{#if isAuthenticated}}
   <h2 class="multi-header">
-    <a {{action "setSection" "admin-challenging"}} id="admin-challenging"
-      class="{{if (eq section "admin-challenging") 'active'}}">Add challenging</a>
-    <a {{action "setSection" "admin-game"}} id="admin-game"
-      class="{{if (eq section "admin-game") 'active'}}">Add game</a>
-    <a {{action "setSection" "admin-player"}}  id="admin-player"
-      class="{{if (eq section "admin-player") 'active'}}">Add player</a>
+    {{#each headers as |header|}}
+      <a {{action "setSection" header.section}} id={{header.name}}
+        class="{{if (eq section header.section) 'active'}}">Add {{header.name}}</a>
+    {{/each}}
 
   <button class="logout-button" {{action "logout"}}>logout</button>
   </h2>

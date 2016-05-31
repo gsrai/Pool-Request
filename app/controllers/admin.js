@@ -10,6 +10,15 @@ export default Ember.Controller.extend({
 
   errorMessage: null,
 
+  headers: Ember.computed(function() {
+    return ['challenging', 'game', 'player'].map((header) => {
+      return {
+        name: header,
+        section: `admin-${header}`
+      };
+    });
+  }),
+
   isAuthenticated: Ember.computed('authenticated', function() {
     return this.get('authenticated');
   }),
