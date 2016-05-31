@@ -10,7 +10,6 @@
 
   {{component section model=model store=store
     transitionToGame="transitionToGame" setError="setError"}}
-  {{admin-error errorMessage=errorMessage}}
 {{else}}
   <div class="admin-container">
     <h2>Login Form</h2>
@@ -33,3 +32,4 @@
     </form>
   </div>
 {{/if}}
+{{admin-error errorMessage=errorMessage}}
