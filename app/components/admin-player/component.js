@@ -6,27 +6,38 @@ export default Ember.Component.extend({
 
   numberOfPlayers: Ember.computed.alias('model.length'),
 
+  createNewPerson() {
+    return {
+      position: this.get('numberOfPlayers') + 1,
+      name: this.get('playerName'),
+      games: Ember.Object.create({
+        wins: 0,
+        losses: 0
+      }),
+      frames: Ember.Object.create({
+        wins: 0,
+        losses: 0
+      }),
+      challenging: null
+    };
+  },
+
   actions: {
     addPlayers() {
-      this.get('store').createRecord('person', {
-        position: this.get('numberOfPlayers') + 1,
-        name: this.get('playerName'),
-        games: Ember.Object.create({
-          wins: 0,
-          losses: 0
-        }),
-        frames: Ember.Object.create({
-          wins: 0,
-          losses: 0
-        }),
-        challenging: null
-      }).save().then(() => {
-        this.set('playerName', '');
-        this.sendAction('transitionToGame');
-      }).catch(function(error) {
-        // TODO maybe should show there was an error on screen
-        console.log('caught: ' + error);
-      });
+      this.get('store').findAll('person').then((players) => {
+        players.forEach((player) => {
+          if (player.get('name') === this.get('playerName')) {
+            throw new Error('Player already exsists');
+          }
+        });
+
+        this.get('store').createRecord('person', this.createNewPerson())
+          .save().then(() => {
+          this.set('playerName', '');
+          this.sendAction('transitionToGame');
+        }).catch((error) => this.sendAction('setError', error));
+      })
+      .catch((error) => this.sendAction('setError', error));
     }
   }
 });

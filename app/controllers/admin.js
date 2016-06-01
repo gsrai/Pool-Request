@@ -7,10 +7,18 @@ const IS_PROD = ENV.environment === 'production';
 
 export default Ember.Controller.extend({
   section: 'admin-challenging',
+
+  errorMessage: null,
+
   isAuthenticated: Ember.computed('authenticated', function() {
     return this.get('authenticated');
   }),
   onInit: Ember.on('init', function() {
+    Ember.run.schedule('afterRender', this, () => {
+      if (this.get('model.firstObject.error')) {
+        this.send('setError', this.get('model.firstObject.error'));
+      }
+    });
     let authData;
     if (!IS_PROD) {
       authData = true;
@@ -22,22 +30,19 @@ export default Ember.Controller.extend({
     this.set('authenticated', !!authData);
   }),
   authenticate(email, password) {
-    if (IS_PROD) {
-      ref.authWithPassword({
-        email,
-        password
-      }, (error) => {
-        if (error) {
-          console.log("Login Failed!", error);
-        } else {
-          this.set('authenticated', true);
-        }
-      }, {
-        remember: "sessionOnly"
-      });
-    } else {
-      this.set('authenticated', true);
-    }
+    ref.authWithPassword({
+      email,
+      password
+    }, (error) => {
+    if (error) {
+        this.send('setError', error);
+      } else {
+        this.set('authenticated', true);
+      }
+    }, {
+      remember: "sessionOnly"
+    })
+    .catch((error) => this.send('setError', error));
   },
   unAuthenticate() {
     if (IS_PROD) {
@@ -56,9 +61,15 @@ export default Ember.Controller.extend({
     },
     setSection(section) {
       this.set('section', section);
+      this.set('errorMessage', '');
     },
     transitionToGame() {
       this.transitionToRoute('ladder');
+      this.set('errorMessage', '');
+    },
+    setError(error) {
+      let message = error && error.message;
+      this.set('errorMessage', message || '');
     }
   }
 });

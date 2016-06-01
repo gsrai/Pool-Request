@@ -4,13 +4,13 @@
         <label>
             Name
             {{select-component
-              class="nameOne"
+              class="nameOne input"
               options=players
               selectOption="selectPlayer1"}}
         </label>
         <label>
           Score
-          {{input class="scoreOne" type="number" value=scoreOne}}
+          {{input class="scoreOne input" type="number" value=scoreOne}}
         </label>
     </fieldset>
     <fieldset>
@@ -18,19 +18,19 @@
         <h3>Player two</h3>
         <label>
             Name
+            <span class="nameTwo input">
+              {{nameTwo}}
+            </span>
         </label>
-        <span class="nameTwo">
-          {{nameTwo}}
-        </span>
         <label>
             Score
-            {{input class="scoreTwo" type="number" value=scoreTwo}}
+            {{input class="scoreTwo input" type="number" value=scoreTwo}}
         </label>
     </fieldset>
     <fieldset>
         <label class="dateLabel">
             Date finished
-            {{input class="date" type="date" value=date}}
+            {{input class="date input" type="date" value=date}}
         </label>
 
         {{input class="submitButton" type="submit" value="submit" }}
