@@ -1,3 +1,6 @@
+@element-width: 120px;
+@button-height: 45px;
+
 .admin-container {
   fieldset {
     width: 45%;
@@ -12,7 +15,7 @@
 
     .input {
       display: inline-block;
-      width: 120px;
+      width: @element-width;
       background: @lightest;
       color: @darker;
       padding: 2px 4px;
@@ -23,13 +26,14 @@
     }
 
     .custom-select {
-      width: 128px;
+      // 2 * 4px padding
+      width: @element-width + 8px;
     }
   }
 
   .submit-button {
-    width: 120px;
-    height: 45px;
+    width: @element-width;
+    height: @button-height;
     background-color: @submitGreen;
     color: @lightest;
     font-size: 16px;
@@ -57,8 +61,8 @@
 
 .logout-button {
   float: right;
-  width: 120px;
-  height: 45px;
+  width: @element-width;
+  height: @button-height;
   background-color: transparent;
   color: @darker;
   font-size: 16px;

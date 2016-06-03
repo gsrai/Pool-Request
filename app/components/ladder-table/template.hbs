@@ -34,6 +34,8 @@
         <td class="frames losses">{{person.frames.losses}}</td>
         <td class="frames ratio winLoss">{{person.frames.ratio.winLoss}}</td>
         <td class="frames ratio winPercent">{{person.frames.ratio.winPercent}}</td>
-        <td class="challenging">{{person.challenging}}</td>
+        <td class="challenging">
+            {{#link-to 'history' (query-params name=person.name)}}{{person.challenging}}{{/link-to}}
+        </td>
     </tr>
 {{/each}}

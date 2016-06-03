@@ -1,24 +1,33 @@
-@darker: #222;
-@dark: #777;
-@light: #ddd;
-@lighter: #eee;
-@lightest: #fff;
+@darker:    #222;
+@dark:      #777;
+@light:     #ddd;
+@lighter:   #eee;
+@lightest:  #fff;
 
-@links: #90C3D4;
+@links:         #2F49DA;
+@links--hover:  #B0B5EF;
 
-@loserRed: #FC3D3D;
-@winnerGreen: green;
-@unchallengableRed: #FC3D3D;
-@challengableGreen: #9DFC3D;
 
-@errorRed: red;
-@submitGreen: green;
+@loserRed:          #A01313;
+@errorRed:          #F30D0D;
+@unchallengableRed: #F16262;
+
+@winnerGreen:       #037711;
+@submitGreen:       #149429;
+@challengableGreen: #BDF3AD;
 
 html, body {
   margin: 0px;
   padding: 0px;
   border: 0px;
   background-color: @light;
+}
+
+a {
+  color: @links;
+  &:hover {
+    color: @links--hover;
+  }
 }
 
 @import './table.less';
