@@ -1,7 +1,7 @@
 {{#if isAuthenticated}}
   <h2 class="multi-header">
     {{#each headers as |header|}}
-      <a {{action "setSection" header.section}} id={{header.name}}
+      <a {{action "setSection" header.section}} id={{header.section}}
         class="{{if (eq section header.section) 'active'}}">Add {{header.name}}</a>
     {{/each}}
 

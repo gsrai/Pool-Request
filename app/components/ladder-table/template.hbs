@@ -4,6 +4,7 @@
     <th rowspan="2" colspan="5">Games</th>
     <th rowspan="2" colspan="5">Frames</th>
     <th rowspan="3">Challenging</th>
+    <th rowspan="3">Expiry</th>
 </tr>
 <tr></tr>
 <tr>
@@ -37,5 +38,6 @@
         <td class="challenging">
             {{#link-to 'history' (query-params name=person.name)}}{{person.challenging}}{{/link-to}}
         </td>
+        <td class="expiry">{{format-date person.expiry}}</td>
     </tr>
 {{/each}}

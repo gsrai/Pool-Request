@@ -7,7 +7,7 @@ moduleForComponent('ladder-table', 'Integration | Component | ladder table', {
 });
 
 test('it renders table correctly', function(assert) {
-  assert.expect(22);
+  assert.expect(25);
   let people = [
     Ember.Object.create({
       name: 'foo',
@@ -27,6 +27,7 @@ test('it renders table correctly', function(assert) {
       name: 'bar',
       position: 2,
       challenging: 'Bob',
+      expiry: 10,
       games: {
         wins: 2,
         losses: 0
@@ -38,6 +39,7 @@ test('it renders table correctly', function(assert) {
       name: 'Bob',
       position: 3,
       challenging: 'bar',
+      expiry: 10,
       games: {
         wins: 0,
         losses: 4
@@ -62,16 +64,19 @@ test('it renders table correctly', function(assert) {
   assert.equal(this.$('.person1 .frames.ratio.winLoss').text().trim(), '4.50');
   assert.equal(this.$('.person1 .frames.ratio.winPercent').text().trim(), '82%');
   assert.equal(this.$('.person1 .challenging').text().trim(), '');
+  assert.equal(this.$('.person1 .expiry').text().trim(), '');
 
   assert.equal(this.$('.unchallengeable').length, 2);
 
   assert.equal(this.$('.person2 .position').text().trim(), '2');
   assert.equal(this.$('.person2 .challenging').text().trim(), 'Bob');
+  assert.equal(this.$('.person2 .expiry').text().trim(), '01/01/70');
   assert.equal(this.$('.person2 .games.ratio.winLoss').text().trim(), '2.00');
   assert.equal(this.$('.person2 .games.ratio.winPercent').text().trim(), '100%');
   assert.equal(this.$('.person3 .position').text().trim(), '3');
   assert.equal(this.$('.person3 .challenging').text().trim(), 'bar');
   assert.equal(this.$('.person3 .games.ratio.winLoss').text().trim(), '0.00');
   assert.equal(this.$('.person3 .games.ratio.winPercent').text().trim(), '0%');
+  assert.equal(this.$('.person3 .expiry').text().trim(), '01/01/70');
 
 });

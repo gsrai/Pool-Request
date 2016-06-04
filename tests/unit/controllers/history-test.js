@@ -56,6 +56,24 @@ test('it filters when name is specified', function(assert) {
   assert.equal(subject.get('filteredGames').objectAt(1)['name-one'], name);
 });
 
+test('sets winner', function(assert) {
+  let games = Ember.A([
+    Ember.Object.create({
+      'name-one': 'foo',
+      'name-two': 'bar',
+      'score-one': 2,
+      'score-two': 1,
+      date: 3
+    })
+  ]);
+
+  let subject = this.subject({
+    model: games
+  });
+
+  assert.equal(subject.get('filteredGames').objectAt(0).get('winner'), 'foo');
+});
+
 test('action clear clears name', function(assert) {
   let subject = this.subject({
     name: 'foo'

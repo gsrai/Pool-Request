@@ -10,7 +10,8 @@ export default Ember.Component.extend({
         name: person.get('name'),
         frames: person.get('frames'),
         games: person.get('games'),
-        challenging: person.get('challenging')
+        challenging: person.get('challenging'),
+        expiry: person.get('expiry')
       });
       let gameWins = person.get('games.wins'),
           gameLosses = person.get('games.losses'),

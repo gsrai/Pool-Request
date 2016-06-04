@@ -12,13 +12,13 @@ test('should add new game', function(assert) {
   fillIn('.date', '1993-05-08');
   andThen(() => {
     click('input[type=submit]');
-    assert.equal(find('.nameTwo').text().trim(), 'Gagondeep');
+    assert.equal(find('.name-two').text().trim(), 'Gagondeep');
     andThen(() => {
       assert.equal(currentURL(), '/ladder');
       assert.equal(find('.person2 .name').text().trim(), 'Sorin');
       assert.equal(find('.person3 .name').text().trim(), 'Gagondeep');
-      assert.equal(find('.person2 .challenging').text(), '');
-      assert.equal(find('.person3 .challenging').text(), '');
+      assert.equal(find('.person2 .challenging').text().trim(), '');
+      assert.equal(find('.person3 .challenging').text().trim(), '');
       visit('/history');
       andThen(() => {
         assert.equal(find('.player-one:last').text().trim(), 'Sorin');
