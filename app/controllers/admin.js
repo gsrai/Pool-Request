@@ -10,6 +10,15 @@ export default Ember.Controller.extend({
 
   errorMessage: null,
 
+  headers: Ember.computed(function() {
+    return ['challenging', 'game', 'player'].map((header) => {
+      return {
+        name: header,
+        section: `admin-${header}`
+      };
+    });
+  }),
+
   isAuthenticated: Ember.computed('authenticated', function() {
     return this.get('authenticated');
   }),
@@ -30,19 +39,27 @@ export default Ember.Controller.extend({
     this.set('authenticated', !!authData);
   }),
   authenticate(email, password) {
-    ref.authWithPassword({
-      email,
-      password
-    }, (error) => {
-    if (error) {
-        this.send('setError', error);
-      } else {
+    if (IS_PROD) {
+      ref.authWithPassword({
+        email,
+        password
+      }, (error) => {
+      if (error) {
+          this.send('setError', error);
+        } else {
+          this.set('authenticated', true);
+        }
+      }, {
+        remember: "sessionOnly"
+      })
+      .catch((error) => this.send('setError', error));
+    } else {
+      if (email && password) {
         this.set('authenticated', true);
+      } else {
+        this.send('setError', 'Supply an email and password');
       }
-    }, {
-      remember: "sessionOnly"
-    })
-    .catch((error) => this.send('setError', error));
+    }
   },
   unAuthenticate() {
     if (IS_PROD) {
@@ -68,7 +85,7 @@ export default Ember.Controller.extend({
       this.set('errorMessage', '');
     },
     setError(error) {
-      let message = error && error.message;
+      let message = error || error.message;
       this.set('errorMessage', message || '');
     }
   }

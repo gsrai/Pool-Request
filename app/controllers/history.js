@@ -14,6 +14,11 @@ export default Ember.Controller.extend({
       });
     }
 
+    games.forEach((game) => {
+      const isPlayerOneWinner = game.get('score-one') > game.get('score-two');
+      game.set('winner', isPlayerOneWinner ? game.get('name-one') : game.get('name-two'));
+    });
+
     return games.sortBy('date').reverse();
   }),
 

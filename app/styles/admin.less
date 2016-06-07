@@ -1,3 +1,6 @@
+@element-width: 120px;
+@button-height: 45px;
+
 .admin-container {
   fieldset {
     width: 45%;
@@ -12,7 +15,7 @@
 
     .input {
       display: inline-block;
-      width: 120px;
+      width: @element-width;
       background: @lightest;
       color: @darker;
       padding: 2px 4px;
@@ -23,29 +26,30 @@
     }
 
     .custom-select {
-      width: 128px;
+      // 2 * 4px padding
+      width: @element-width + 8px;
     }
   }
 
-  .submitButton {
-    width: 120px;
-    height: 45px;
-    background-color: green;
+  .submit-button {
+    width: @element-width;
+    height: @button-height;
+    background-color: @submitGreen;
     color: @lightest;
     font-size: 16px;
     border: none;
     margin: 10px;
   }
 
-  .scoreOne,
-  .scoreTwo {
+  .score-one,
+  .score-two {
     width: 50px;
   }
 }
 
 .admin-error {
   display: none;
-  border: 5px solid red;
+  border: 5px solid @errorRed;
   background-color: @dark;
   color: @light;
   padding: 4px;
@@ -55,15 +59,16 @@
   }
 }
 
-.logoutButton {
+.logout-button {
   float: right;
-  width: 120px;
-  height: 45px;
+  width: @element-width;
+  height: @button-height;
   background-color: transparent;
   color: @darker;
   font-size: 16px;
   border: none;
   margin: -10px;
+
   &:hover {
     color: @light;
   }

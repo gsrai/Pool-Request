@@ -4,8 +4,8 @@
 {{#each games as |game|}}
   <tr>
     <td class="date">{{format-date game.date}}</td>
-    <td class="player playerOne">{{game.name-one}}</td>
+    <td class="player player-one {{if (eq game.winner game.name-one) 'winner' 'loser'}}">{{game.name-one}}</td>
     <td class="score" >{{game.score-one}} - {{game.score-two}}</td>
-    <td class="player playerTwo">{{game.name-two}}</td>
+    <td class="player player-two {{if (eq game.winner game.name-two) 'winner' 'loser'}}">{{game.name-two}}</td>
   </tr>
 {{/each}}

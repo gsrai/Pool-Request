@@ -9,12 +9,14 @@ export default [
     position: 2,
     name: 'Gagondeep',
     challenging: 'Sorin',
+    expiry: 1460000000000,
     games: { wins: 1, losses: 1 },
     frames: { wins: 2, losses: 3 }
   }, {
     position: 3,
     name: 'Sorin',
     challenging: 'Gagondeep',
+    expiry: 1460000000000,
     games: { wins: 1, losses: 2 },
     frames: { wins: 3, losses: 4 }
   }, {
