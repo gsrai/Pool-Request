@@ -4,7 +4,7 @@ import moduleForAcceptance from 'pool-request/tests/helpers/module-for-acceptanc
 moduleForAcceptance('Acceptance | admin');
 
 test('should add new game', function(assert) {
-  assert.expect(10);
+  assert.expect(12);
   visit('/admin');
   click('#admin-game');
   fillIn('.name-one', 'Sorin');
@@ -19,6 +19,8 @@ test('should add new game', function(assert) {
       assert.equal(find('.person3 .name').text().trim(), 'Gagondeep');
       assert.equal(find('.person2 .challenging').text().trim(), '');
       assert.equal(find('.person3 .challenging').text().trim(), '');
+      assert.equal(find('.person2 .expiry').text().trim(), '');
+      assert.equal(find('.person3 .expiry').text().trim(), '');
       visit('/history');
       andThen(() => {
         assert.equal(find('.player-one:last').text().trim(), 'Sorin');
