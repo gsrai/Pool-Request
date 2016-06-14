@@ -4,11 +4,12 @@ import moduleForAcceptance from 'pool-request/tests/helpers/module-for-acceptanc
 moduleForAcceptance('Acceptance | admin');
 
 test('should add new game', function(assert) {
-  assert.expect(12);
+  assert.expect(20);
   visit('/admin');
   click('#admin-game');
   fillIn('.name-one', 'Sorin');
   fillIn('.score-one', '3');
+  fillIn('.score-two', '1');
   fillIn('.date', '1993-05-08');
   andThen(() => {
     click('input[type=submit]');
@@ -21,10 +22,19 @@ test('should add new game', function(assert) {
       assert.equal(find('.person3 .challenging').text().trim(), '');
       assert.equal(find('.person2 .expiry').text().trim(), '');
       assert.equal(find('.person3 .expiry').text().trim(), '');
+
+      assert.equal(find('.person2 .games.wins').text().trim(), '2');
+      assert.equal(find('.person3 .games.wins').text().trim(), '1');
+      assert.equal(find('.person2 .games.losses').text().trim(), '2');
+      assert.equal(find('.person3 .games.losses').text().trim(), '2');
+      assert.equal(find('.person2 .frames.wins').text().trim(), '6');
+      assert.equal(find('.person3 .frames.wins').text().trim(), '3');
+      assert.equal(find('.person2 .frames.losses').text().trim(), '5');
+      assert.equal(find('.person3 .frames.losses').text().trim(), '6');
       visit('/history');
       andThen(() => {
         assert.equal(find('.player-one:last').text().trim(), 'Sorin');
-        assert.equal(find('.score:last').text(), '3 - 0');
+        assert.equal(find('.score:last').text(), '3 - 1');
         assert.equal(find('.player-two:last').text().trim(), 'Gagondeep');
         assert.equal(find('.date:last').text(), '08/05/93');
       });
