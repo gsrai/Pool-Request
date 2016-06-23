@@ -5,7 +5,7 @@
         class="{{if (eq section header.section) 'active'}}">Add {{header.name}}</a>
     {{/each}}
 
-  <button class="logout-button" {{action "logout"}}>logout</button>
+    <button class="logout-button" {{action "logout"}}>logout</button>
   </h2>
 
   {{component section model=model store=store
