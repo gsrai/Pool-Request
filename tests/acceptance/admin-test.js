@@ -7,15 +7,14 @@ moduleForAcceptance('Acceptance | admin');
 test('should set new challenging players', function(assert) {
   assert.expect(5);
   visit('/admin');
-  fillIn('.player-one', 'Luke');
-  fillIn('.player-two', 'Bradley');
+  fillIn('.player-one', 'Bradley');
   click('input[type=submit]');
   andThen(() => {
     assert.equal(currentURL(), '/ladder');
-    assert.equal(find('.person1 .challenging').text().trim(), 'Bradley');
-    assert.equal(find('.person5 .challenging').text().trim(), 'Luke');
+    assert.equal(find('.person4 .challenging').text().trim(), 'Bradley');
+    assert.equal(find('.person5 .challenging').text().trim(), 'Tom');
     const date = moment(moment() + 604800000).format('DD/MM/YY');
-    assert.equal(find('.person1 .expiry').text().trim(), date);
+    assert.equal(find('.person4 .expiry').text().trim(), date);
     assert.equal(find('.person5 .expiry').text().trim(), date);
   });
 });

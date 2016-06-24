@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     let players = this.get('model');
     return players.map((player, i) => {
         const selected = (i === 0);
-        return this.dropdownFormat(player, selected);
+        return this.dropdownFormat(player, selected, false);
     }).filter((player) => !player.challenged);
   }),
 
@@ -33,26 +33,33 @@ export default Ember.Component.extend({
     ];
 
     const challengers = [];
+    let selectedPlayer = null;
     posibleChallengers.forEach((challenger) => {
       if (challenger.isValid) {
         let player = players.findBy('position', position + challenger.diff);
-        if (player && !player.get('challenging')) {
-          challengers.push(this.dropdownFormat(player, !challengers.length));
+        if (player) {
+          const disabled = !!player.get('challenging');
+          const isSelected = !selectedPlayer && !disabled;
+          if (!selectedPlayer && isSelected) {
+            selectedPlayer = player.get('name');
+          }
+          challengers.push(this.dropdownFormat(player, isSelected, disabled));
         }
       }
     });
 
-    this.set('challenger2', challengers.length ? challengers[0].value : null);
+    this.set('challenger2', selectedPlayer);
 
     return challengers;
   }),
 
-  dropdownFormat(player, selected) {
+  dropdownFormat(player, selected, disabled) {
     return {
       display: player.get('name'),
       challenged: !!player.get('challenging'),
       value: player.get('name'),
-      selected
+      selected,
+      disabled
     };
   },
 

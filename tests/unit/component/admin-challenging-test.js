@@ -129,15 +129,15 @@ test('2nd last place only challenge 2 above 1 below', function(assert) {
   assert.equal(subject.get('challenger2'), 'c');
 });
 
-test('posibleChallengers does not include already challenged', function(assert) {
-  assert.expect(4);
+test('posibleChallengers disables already challenged', function(assert) {
+  assert.expect(10);
   let subject = this.subject({
     model: Ember.A([
       Ember.Object.create({ name: 'Luke', position: 1 }),
-      Ember.Object.create({ name: 'a', position: 2 }),
-      Ember.Object.create({ name: 'b', position: 3, challenging: 'd'}),
+      Ember.Object.create({ name: 'a', position: 2, challenging: 'b' }),
+      Ember.Object.create({ name: 'b', position: 3, challenging: 'a'}),
       Ember.Object.create({ name: 'c', position: 4 }),
-      Ember.Object.create({ name: 'd', position: 5, challenging: 'b' }),
+      Ember.Object.create({ name: 'd', position: 5 }),
       Ember.Object.create({ name: 'e', position: 6 }),
       Ember.Object.create({ name: 'f', position: 7 })
     ])
@@ -145,14 +145,20 @@ test('posibleChallengers does not include already challenged', function(assert) 
   subject.set('challenger1', 'c');
 
   const pc = subject.get('posibleChallengers');
-  assert.equal(pc.length, 2);
+  assert.equal(pc.length, 4);
   assert.equal(pc.objectAt(0).value, 'a');
-  assert.equal(pc.objectAt(1).value, 'e');
-  assert.equal(subject.get('challenger2'), 'a');
+  assert.equal(pc.objectAt(0).disabled, true);
+  assert.equal(pc.objectAt(1).value, 'b');
+  assert.equal(pc.objectAt(1).disabled, true);
+  assert.equal(pc.objectAt(2).value, 'd');
+  assert.equal(pc.objectAt(2).disabled, false);
+  assert.equal(pc.objectAt(3).value, 'e');
+  assert.equal(pc.objectAt(3).disabled, false);
+  assert.equal(subject.get('challenger2'), 'd');
 });
 
-test('posibleChallengers can be empty', function(assert) {
-  assert.expect(2);
+test('posibleChallengers can be all disabled', function(assert) {
+  assert.expect(6);
   let subject = this.subject({
     model: Ember.A([
       Ember.Object.create({ name: 'Luke', position: 1 }),
@@ -162,7 +168,12 @@ test('posibleChallengers can be empty', function(assert) {
   });
   subject.set('challenger1', 'Luke');
 
-  assert.equal(subject.get('posibleChallengers.length'), 0);
+  const pc = subject.get('posibleChallengers');
+  assert.equal(pc.get('length'), 2);
+  assert.equal(pc.objectAt(0).value, 'a');
+  assert.equal(pc.objectAt(0).disabled, true);
+  assert.equal(pc.objectAt(1).value, 'b');
+  assert.equal(pc.objectAt(1).disabled, true);
   assert.equal(subject.get('challenger2'), null);
 });
 
@@ -190,16 +201,18 @@ test('fortmats for the dropdown data', function(assert) {
       display: 'Luke',
       challenged: false,
       value: 'Luke',
-      selected: true
+      selected: true,
+      disabled: false
   };
-  assert.deepEqual(subject.dropdownFormat(player, true), expectedFormat);
+  assert.deepEqual(subject.dropdownFormat(player, true, false), expectedFormat);
 
   player = Ember.Object.create({ name: 'Gagondeep', position: 2, challenging: 'Luke' });
   expectedFormat = {
     display: 'Gagondeep',
     challenged: true,
     value: 'Gagondeep',
-    selected: false
+    selected: false,
+    disabled: true
   };
-  assert.deepEqual(subject.dropdownFormat(player, false), expectedFormat);
+  assert.deepEqual(subject.dropdownFormat(player, false, true), expectedFormat);
 });
