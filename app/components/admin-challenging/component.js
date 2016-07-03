@@ -9,58 +9,69 @@ export default Ember.Component.extend({
   challenger2: null,
   expiry: moment(moment() + ONE_WEEK_IN_MILLIS).format('YYYY-MM-DD'),
 
+  challengerTwo: Ember.computed('challenger2', 'possibleChallengers.[]', 'possibleChallengers.@each.value', function() {
+    // User input
+    const challenger2 = this.get('challenger2');
+    if (challenger2) {
+      return challenger2;
+    }
+
+    // first not disabled
+    for (let i = 0; i < this.get('possibleChallengers.length'); i++) {
+      const challenger = this.get('possibleChallengers').objectAt(i);
+      if (!challenger.get('disabled')) {
+        return challenger.get('value');
+      }
+    }
+  }),
+
   unchallengedPlayers: Ember.computed('model.[]', 'model.@each.challenging', function() {
     let players = this.get('model');
     return players.map((player, i) => {
         const selected = (i === 0);
         return this.dropdownFormat(player, selected, false);
-    }).filter((player) => !player.challenged);
+    }).filter((player) => !player.get('challenged'));
   }),
 
-  posibleChallengers: Ember.computed('challenger1', function() {
+  possibleChallengers: Ember.computed('challenger1', function() {
     if (!this.get('challenger1')) {
-      this.set('challenger2', null);
       return [];
     }
     const players = this.get('model');
     const position = players.findBy('name', this.get('challenger1')).get('position');
 
-    const posibleChallengers = [
+    const possibleChallengers = [];
+    let hasSelectedPlayer = false;
+    [
       { isValid: position - 2 >= 1, diff: -2 },
       { isValid: position - 1 >= 1, diff: -1 },
       { isValid: position + 1 <= players.get('length'), diff: 1 },
       { isValid: position + 2 <= players.get('length'), diff: 2 }
-    ];
-
-    const challengers = [];
-    let selectedPlayer = null;
-    posibleChallengers.forEach((challenger) => {
+    ].forEach((challenger) => {
       if (challenger.isValid) {
-        let player = players.findBy('position', position + challenger.diff);
+        const player = players.findBy('position', position + challenger.diff);
         if (player) {
           const disabled = !!player.get('challenging');
-          const isSelected = !selectedPlayer && !disabled;
-          if (!selectedPlayer && isSelected) {
-            selectedPlayer = player.get('name');
+          const isSelected = !hasSelectedPlayer && !disabled;
+          possibleChallengers.push(this.dropdownFormat(player, isSelected, disabled));
+          if (isSelected) {
+            hasSelectedPlayer = true;
           }
-          challengers.push(this.dropdownFormat(player, isSelected, disabled));
         }
       }
     });
 
-    this.set('challenger2', selectedPlayer);
-
-    return challengers;
+    return possibleChallengers;
   }),
 
   dropdownFormat(player, selected, disabled) {
-    return {
+    return Ember.Object.create({
       display: player.get('name'),
       challenged: !!player.get('challenging'),
       value: player.get('name'),
       selected,
       disabled
-    };
+    });
   },
 
   actions: {
@@ -74,7 +85,7 @@ export default Ember.Component.extend({
 
     addChallenged() {
       const challenger1 = this.get('challenger1');
-      const challenger2 = this.get('challenger2');
+      const challenger2 = this.get('challengerTwo');
       const expiry = new Date(this.get('expiry'));
 
       this.get('store').findAll('person').then(function(players) {
