@@ -69,6 +69,9 @@ export default Ember.Component.extend({
     if (winnerScore === loserScore) {
       throw new Error('There should be a winner');
     }
+    if (new Date(this.get('date')) > new Date()) {
+      throw new Error('Date should not be in the future');
+    }
 
     this._incrementResults(winner, topPosition, winnerScore, loserScore);
     this._incrementResults(loser, lowerPosition, loserScore, winnerScore);
