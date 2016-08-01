@@ -1,35 +1,13 @@
-{{#if isAuthenticated}}
-  <h2 class="multi-header">
-    {{#each headers as |header|}}
-      <a {{action "setSection" header.section}} id={{header.section}}
-        class="{{if (eq section header.section) 'active'}}">Add {{header.name}}</a>
-    {{/each}}
+<h2 class="multi-header">
+  {{#each headers as |header|}}
+    <a {{action "setSection" header.section}} id={{header.section}}
+      class="{{if (eq section header.section) 'active'}}">Add {{header.name}}</a>
+  {{/each}}
 
-    <button class="logout-button" {{action "logout"}}>logout</button>
-  </h2>
+  <button class="logout-button" {{action "logout"}}>logout</button>
+</h2>
 
-  {{component section model=model store=store
-    transitionToGame="transitionToGame" setError="setError"}}
-{{else}}
-  <div class="admin-container">
-    <h2>Login Form</h2>
+{{component section model=model store=store
+  transitionToGame="transitionToGame" setError="setError"}}
 
-    <form class="login-form" {{action "login" on="submit"}}>
-      <fieldset>
-        <h3>Login</h3>
-        <label>
-          Email
-          {{input class="email" type="email" value=adminEmail placeholder="foo@bar.com"}}
-        </label>
-        <label>
-          Password
-          {{input class="password" type="password" value=adminPassword}}
-        </label>
-      </fieldset>
-      <fieldset>
-        <input type="submit" value="login" class="submit-button">
-      </fieldset>
-    </form>
-  </div>
-{{/if}}
 {{admin-error errorMessage=errorMessage}}

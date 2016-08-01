@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('ladder');
   this.route('history');
   this.route('admin');
+  this.route('session', { path: 'admin/login' });
 });
 
 export default Router;

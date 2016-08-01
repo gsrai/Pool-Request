@@ -8,6 +8,17 @@ module.exports = function(environment) {
     firebase: 'https://popping-heat-7651.firebaseio.com/',
     baseURL: '/',
     locationType: 'auto',
+    torii: {
+      sessionServiceName: 'session',
+      providers: {
+        'firebase-simple-auth': {
+        }
+      }
+    },
+    'ember-simple-auth': {
+      authenticationRoute: 'session',
+      routeAfterAuthentication: 'admin'
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
