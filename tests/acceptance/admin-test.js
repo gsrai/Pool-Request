@@ -1,11 +1,21 @@
 import { test } from 'qunit';
 import moment from 'moment';
 import moduleForAcceptance from 'pool-request/tests/helpers/module-for-acceptance';
+import { authenticateSession } from 'pool-request/tests/helpers/ember-simple-auth';
 
 moduleForAcceptance('Acceptance | admin');
 
+test('should redirect to login', function(assert) {
+  visit('/admin');
+  andThen(() => {
+    assert.equal(currentURL(), '/admin/login');
+  });
+});
+
 test('should set new challenging players', function(assert) {
   assert.expect(5);
+  authenticateSession(this.application);
+  server.loadFixtures();
   visit('/admin');
   fillIn('.player-one', 'Bradley');
   click('input[type=submit]');
@@ -21,6 +31,8 @@ test('should set new challenging players', function(assert) {
 
 test('should add new game', function(assert) {
   assert.expect(20);
+  authenticateSession(this.application);
+  server.loadFixtures();
   visit('/admin');
   click('#admin-game');
   fillIn('.name-one', 'Sorin');
@@ -61,6 +73,8 @@ test('should add new game', function(assert) {
 
 test('should add new person', function(assert) {
   assert.expect(2);
+  authenticateSession(this.application);
+  server.loadFixtures();
   visit('/admin');
   click('#admin-player');
   fillIn('.playerName', 'Bob');
@@ -73,6 +87,8 @@ test('should add new person', function(assert) {
 
 test('should set an error', function(assert) {
   assert.expect(2);
+  authenticateSession(this.application);
+  server.loadFixtures();
   visit('/admin');
   fillIn('.player-one', 'Luke');
   fillIn('.player-two', 'Luke');
