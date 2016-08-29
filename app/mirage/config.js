@@ -6,7 +6,13 @@ export default function() {
    * GET
    */
   this.get('https://auth.firebase.com/v2/popping-heat-7651/auth/password', function() {
-    // TODO
+    // TODO fake login
+    return {
+      provider:"password",
+      uid:"uid",
+      token:"TODO",
+      password:{"email":"ig.p00lrequest@gmail.com","isTemporaryPassword":false}
+    };
   });
 
   this.get('/people', function(db) {
