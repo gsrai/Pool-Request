@@ -1,9 +1,4 @@
 import Ember from 'ember';
-import Firebase from 'firebase';
-import ENV from 'pool-request/config/environment';
-
-let ref;
-const IS_PROD = ENV.environment === 'production';
 
 export default Ember.Controller.extend({
   section: 'admin-challenging',
@@ -19,62 +14,21 @@ export default Ember.Controller.extend({
     });
   }),
 
-  isAuthenticated: Ember.computed('authenticated', function() {
-    return this.get('authenticated');
-  }),
   onInit: Ember.on('init', function() {
     Ember.run.schedule('afterRender', this, () => {
       if (this.get('model.firstObject.error')) {
         this.send('setError', this.get('model.firstObject.error'));
       }
     });
-    let authData;
-    if (!IS_PROD) {
-      authData = true;
-    } else {
-      ref = new Firebase("https://popping-heat-7651.firebaseio.com");
-      authData = ref.getAuth();
-    }
-
-    this.set('authenticated', !!authData);
   }),
-  authenticate(email, password) {
-    if (IS_PROD) {
-      ref.authWithPassword({
-        email,
-        password
-      }, (error) => {
-      if (error) {
-          this.send('setError', error);
-        } else {
-          this.set('authenticated', true);
-        }
-      }, {
-        remember: "sessionOnly"
-      })
-      .catch((error) => this.send('setError', error));
-    } else {
-      if (email && password) {
-        this.set('authenticated', true);
-      } else {
-        this.send('setError', 'Supply an email and password');
-      }
-    }
-  },
-  unAuthenticate() {
-    if (IS_PROD) {
-      ref.unauth();
-    }
-    this.set('authenticated', false);
-  },
+
   actions: {
-    login() {
-      let email = this.get('adminEmail');
-      let password = this.get('adminPassword');
-      this.authenticate(email, password);
-    },
     logout() {
-      this.unAuthenticate();
+    this.get('session').invalidate().then(() => {
+      this.transitionToRoute('session');
+    }).catch((error) => {
+      this.sendAction('setError', error);
+    });
     },
     setSection(section) {
       this.set('section', section);

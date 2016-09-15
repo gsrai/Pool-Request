@@ -2,13 +2,19 @@ import Mirage from 'ember-cli-mirage';
 
 export default function() {
 
-  // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-  // this.namespace = '';    // make this `api`, for example, if your API is namespaced
-  // this.timing = 400;
-
   /**
    * GET
    */
+  this.get('https://auth.firebase.com/v2/popping-heat-7651/auth/password', function() {
+    // TODO fake login
+    return {
+      provider:"password",
+      uid:"uid",
+      token:"TODO",
+      password:{"email":"ig.p00lrequest@gmail.com","isTemporaryPassword":false}
+    };
+  });
+
   this.get('/people', function(db) {
     return {
       data: db.people.map(function(attributes, i) {
@@ -56,42 +62,4 @@ export default function() {
 
     return { data: db.people.update(id, params) };
   });
-
-  /*
-    PUT shorthands
-
-    this.put('/contacts/:id');
-    this.put('/contacts/:id', 'user'); // specify the type of resource to be updated
-  */
-
-  /*
-    DELETE shorthands
-
-    this.del('/contacts/:id');
-    this.del('/contacts/:id', 'user'); // specify the type of resource to be deleted
-
-    // Single object + related resources. Make sure parent resource is first.
-    this.del('/contacts/:id', ['contact', 'addresses']);
-  */
-
-  /*
-    Function fallback. Manipulate data in the db via
-
-      - db.{collection}
-      - db.{collection}.find(id)
-      - db.{collection}.where(query)
-      - db.{collection}.update(target, attrs)
-      - db.{collection}.remove(target)
-
-    // Example: return a single object with related models
-    this.get('/contacts/:id', function(db, request) {
-      var contactId = +request.params.id;
-
-      return {
-        contact: db.contacts.find(contactId),
-        addresses: db.addresses.where({contact_id: contactId})
-      };
-    });
-
-  */
 }
